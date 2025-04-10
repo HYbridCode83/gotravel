@@ -1,0 +1,20 @@
+<div class="image-gallery">
+  <img src="assets/images/photo1.jpg" alt="Image 1" />
+  <img src="assets/images/photo2.jpg" alt="Image 2" />
+  <img src="assets/images/photo3.jpg" alt="Image 3" />
+</div>
+
+<style>
+  .image-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .image-gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+</style>
