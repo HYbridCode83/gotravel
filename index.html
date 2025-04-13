@@ -1,101 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Discover Sarawak</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f4f5;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-
-    header {
-      background-color: #00695c;
-      color: white;
-      padding: 40px 20px;
-    }
-
-    h1 {
-      font-size: 2.8rem;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 1.1rem;
-      margin: 0 auto;
-      max-width: 600px;
-    }
-
-    iframe {
-      margin: 40px auto;
-      border: none;
-      width: 90%;
-      max-width: 1000px;
-      height: 600px;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-    }
-
-    .section {
-      background-color: #fff;
-      padding: 50px 20px;
-    }
-
-    .section h2 {
-      color: #004d40;
-    }
-
-    .login-btn {
-      background-color: #009688;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      font-size: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    footer {
-      background-color: #004d40;
-      color: white;
-      padding: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarawak Tourism - Explore Beautiful Sarawak</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">GO TRAVEL</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#map">Map</a></li>
+                    <li><a href="#destinations">Places</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="login.html" class="login-btn">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-  <header>
-    <h1>Discover Sarawak</h1>
-    <p>Explore the hidden gems of Sarawak – from lush rainforests to vibrant cultural sites.</p>
-  </header>
+    <!-- Hero Banner -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>GO TRAVEL</h1>
+            <p>TRAVEL NOW</p>
+            <button class="explore-btn">Explore</button>
+        </div>
+    </section>
 
-  <!-- 🔗 Embedded Figma Prototype -->
-  <iframe 
-    src="https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/design/M8z8tIqEjVnrqsOBud8IOo/ASS?node-id=0-1&t=QC4UnB6cyLjyQdlg-1" 
-    allowfullscreen>
-  </iframe>
+    <!-- Main Image - Kuching Waterfront -->
+    <section class="main-image">
+        <img src="images/kuching-waterfront.jpg" alt="Kuching Waterfront and State Assembly Building">
+    </section>
 
-  <div class="section">
-    <h2>Places to Visit</h2>
-    <p>Get inspired by our featured destinations — from Bako National Park to the longhouses of Batang Ai.</p>
-    <!-- You can later replace this with dynamic content -->
-  </div>
+    <!-- Sarawak Map Section -->
+    <section id="map" class="map-section">
+        <h2>Sarawak Map</h2>
+        <div class="map-container">
+            <img src="images/sarawak-map.png" alt="Map of Sarawak with tourist destinations">
+        </div>
+    </section>
 
-  <div class="section">
-    <h2>Login</h2>
-    <p>Access your personalized travel plan and favorites by logging in.</p>
-    <button class="login-btn">Login</button>
-    <!-- In the future, link to login.html or a backend login system -->
-  </div>
+    <!-- About Section with Flag -->
+    <section class="about-section">
+        <div class="about-container">
+            <div class="flag-container">
+                <img src="images/sarawak-flag.png" alt="Sarawak Flag" class="flag-image">
+            </div>
+            <div class="about-text">
+                <h3>Welcome to Sarawak!</h3>
+                <p>Sarawak or Bumi Kenyalang is Malaysia's largest state. The state capital, Kuching, is known for its vibrant culture, unique history, abundant culinary options, and treasure trove of handicrafts, souvenirs, flora and fauna native to Sarawak.</p>
+            </div>
+        </div>
+    </section>
 
-  <footer>
-    <p>&copy; 2025 Discover Sarawak. All rights reserved.</p>
-  </footer>
+    <!-- Places to Visit Section -->
+    <section id="destinations" class="places-section">
+        <h2>Places to Visit</h2>
+        <div class="places-grid">
+            <!-- Row 1 -->
+            <div class="place-card">
+                <img src="images/kuching.jpg" alt="Kuching">
+                <div class="place-name">Kuching</div>
+            </div>
+            <div class="place-card">
+                <img src="images/sibu.jpg" alt="Sibu">
+                <div class="place-name">Sibu</div>
+            </div>
+            <div class="place-card">
+                <img src="images/miri.jpg" alt="Miri">
+                <div class="place-name">Miri</div>
+            </div>
+            <div class="place-card">
+                <img src="images/bintulu.jpg" alt="Bintulu">
+                <div class="place-name">Bintulu</div>
+            </div>
+            
+            <!-- Row 2 -->
+            <div class="place-card">
+                <img src="images/sri-aman.jpg" alt="Sri Aman">
+                <div class="place-name">Sri Aman</div>
+            </div>
+            <div class="place-card">
+                <img src="images/serian.jpg" alt="Serian">
+                <div class="place-name">Serian</div>
+            </div>
+            <div class="place-card">
+                <img src="images/mukah.jpg" alt="Mukah">
+                <div class="place-name">Mukah</div>
+            </div>
+            <div class="place-card">
+                <img src="images/kapit.jpg" alt="Kapit">
+                <div class="place-name">Kapit</div>
+            </div>
+            
+            <!-- Row 3 -->
+            <div class="place-card">
+                <img src="images/betong.jpg" alt="Betong">
+                <div class="place-name">Betong</div>
+            </div>
+            <div class="place-card">
+                <img src="images/limbang.jpg" alt="Limbang">
+                <div class="place-name">Limbang</div>
+            </div>
+            <div class="place-card">
+                <img src="images/kota-samarahan.jpg" alt="Kota Samarahan">
+                <div class="place-name">Kota Samarahan</div>
+            </div>
+            <div class="place-card">
+                <img src="images/sarikei.jpg" alt="Sarikei">
+                <div class="place-name">Sarikei</div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <p>Email: gotravel@gmail.com</p>
+            <p>Tel: +60 123456789</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
 </body>
 </html>
