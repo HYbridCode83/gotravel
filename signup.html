@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container login-container">
+        <div class="header">
+            <a href="index.html" class="logo">P</a>
+            <div class="nav">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="support.html">Support</a>
+                <a href="login.html">Log In</a>
+            </div>
+        </div>
+        
+        <h1>Create Account</h1>
+        
+        <div class="social-buttons">
+            <button class="social-button facebook-button">
+                <span>Facebook</span>
+            </button>
+            <button class="social-button google-button">
+                <span>Google</span>
+            </button>
+        </div>
+        
+        <div class="divider">
+            <span>OR</span>
+        </div>
+        
+        <form action="#" method="post">
+            <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" name="fullname" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="new-username">Username</label>
+                <input type="text" id="new-username" name="username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="new-password">Password</label>
+                <input type="password" id="new-password" name="password" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+            
+            <button type="submit" class="signin-button">Create Account</button>
+        </form>
+        
+        <div class="signup-text">
+            Already have an account? <a href="login.html">Sign in</a>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
