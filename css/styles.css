@@ -249,3 +249,199 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+/* Search Bar Styles */
+.search-container {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.search-container form {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.search-container input[type="text"] {
+    padding: 8px;
+    border: none;
+    outline: none;
+    width: 180px;
+    font-size: 14px;
+}
+
+.search-container button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+/* Modify nav-container to accommodate search */
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5%;
+}
+
+/* Modify nav to include search bar */
+nav {
+    display: flex;
+    align-items: center;
+}
+
+/* Responsive adjustments for search bar */
+@media (max-width: 768px) {
+    .search-container {
+        margin-left: 10px;
+    }
+    
+    .search-container input[type="text"] {
+        width: 120px;
+    }
+}
+
+@media (max-width: 600px) {
+    .nav-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav {
+        margin-top: 10px;
+        flex-direction: column;
+    }
+    
+    .search-container {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+    }
+    
+    .search-container form {
+        width: 100%;
+    }
+    
+    .search-container input[type="text"] {
+        width: 100%;
+    }
+}
+
+/* Suggestions dropdown */
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1001;
+    list-style: none;
+    display: none;
+}
+
+.search-container {
+    position: relative;
+}
+
+.suggestions-list li {
+    padding: 8px 12px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.suggestions-list li:hover {
+    background-color: #f5f5f5;
+}
+
+/* Search Section Styles */
+.search-section {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    margin: 20px auto;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-container {
+    width: 100%;
+    position: relative;
+}
+
+#search-bar {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#search-bar:focus {
+    border-color: #2ecc71;
+}
+
+#suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 0 0 8px 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.destination-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.destination-card:hover {
+    background-color: #f5f5f5;
+}
+
+.destination-info h3 {
+    margin: 0;
+    color: #333;
+}
+
+.destination-info p {
+    margin: 5px 0 0;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.learn-more {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.learn-more:hover {
+    background-color: #27ae60;
+}
