@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - GO TRAVEL</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Additional styles for search results */
+        .results-container {
+            max-width: 800px;
+            margin: 100px auto 40px;
+            padding: 20px;
+        }
+        
+        .search-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .search-query {
+            font-weight: bold;
+            color: #f39c12;
+        }
+        
+        .result-card {
+            display: flex;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .result-image {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .result-content {
+            padding: 15px;
+            flex: 1;
+        }
+        
+        .result-title {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .result-location {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .result-location i {
+            color: #f39c12;
+            margin-right: 5px;
+        }
+        
+        .result-description {
+            font-size: 14px;
+            line-height: 1.4;
+            color: #555;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .view-more {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: #f39c12;
+            color: white;
+            border-radius: 4px;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .no-results i {
+            font-size: 40px;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .result-card {
+                flex-direction: column;
+            }
+            
+            .result-image {
+                width: 100%;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">GO TRAVEL</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#map">Map</a></li>
+                    <li><a href="index.html#destinations">Places</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="login.html" class="login-btn">Login</a></li>
+                </ul>
+                <div class="search-container">
+                    <input type="text" id="search-bar" placeholder="Search destinations..." autocomplete="off">
+                    <button type="button" id="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <ul id="suggestions"></ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="results-container" id="search-results">
+        <div class="loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading search results...</p>
+        </div>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <p>Email: gotravel@gmail.com</p>
+            <p>Tel: +60 123456789</p>
+        </div>
+    </footer>
+
+    <script type="module" src="js/search-results.js"></script>
+</body>
+</html>
