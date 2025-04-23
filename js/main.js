@@ -17,6 +17,7 @@ const destinations = [
 document.addEventListener('DOMContentLoaded', function() {
     const searchBar = document.getElementById('search-bar');
     const suggestions = document.getElementById('suggestions');
+    const searchButton = document.getElementById('search-button');
     
     if (searchBar && suggestions) {
         searchBar.addEventListener('input', () => {
@@ -37,6 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         li.addEventListener('click', () => {
                             searchBar.value = destination;
                             suggestions.style.display = 'none';
+                            // Redirect to search results with this destination
+                            window.location.href = `search-results.html?query=${encodeURIComponent(destination)}`;
                         });
                         suggestions.appendChild(li);
                     });
@@ -48,82 +51,30 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Hide suggestions when clicking outside
-        document.addEventListener('click', (e) => {
-            if (e.target !== searchBar) {
-                suggestions.style.display = 'none';
-            }
-        });
-    }
-});
-
-// Firebase search functionality
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Firebase (your existing Firebase initialization code)
-    
-    // Search form functionality
-    const searchForm = document.getElementById('search-form');
-    const searchBar = document.getElementById('search-bar');
-    const suggestionsList = document.getElementById('suggestions');
-    
-    if (searchForm) {
-        searchForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const query = searchBar.value.trim();
-            if (query !== '') {
-                // Redirect to search results page with query parameter
-                window.location.href = `search-results.html?query=${encodeURIComponent(query)}`;
-            }
-        });
-    }
-    
-    // Auto-suggestions functionality (optional)
-    if (searchBar && suggestionsList) {
-        searchBar.addEventListener('input', async function() {
-            const query = searchBar.value.toLowerCase().trim();
-            
-            if (query.length > 1) {
-                try {
-                    // Get destinations from Firebase
-                    const querySnapshot = await getDocs(collection(db, "destinations"));
-                    const matches = [];
-                    
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        if (data.name.toLowerCase().includes(query)) {
-                            matches.push(data.name);
-                        }
-                    });
-                    
-                    // Show suggestions
-                    if (matches.length > 0) {
-                        suggestionsList.innerHTML = '';
-                        suggestionsList.style.display = 'block';
-                        
-                        matches.forEach(match => {
-                            const li = document.createElement('li');
-                            li.textContent = match;
-                            li.addEventListener('click', () => {
-                                searchBar.value = match;
-                                suggestionsList.style.display = 'none';
-                            });
-                            suggestionsList.appendChild(li);
-                        });
-                    } else {
-                        suggestionsList.style.display = 'none';
-                    }
-                } catch (error) {
-                    console.error("Error getting suggestions: ", error);
+        // Handle search button click
+        if (searchButton) {
+            searchButton.addEventListener('click', () => {
+                const query = searchBar.value.trim();
+                if (query) {
+                    window.location.href = `search-results.html?query=${encodeURIComponent(query)}`;
                 }
-            } else {
-                suggestionsList.style.display = 'none';
+            });
+        }
+        
+        // Handle Enter key in search bar
+        searchBar.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const query = searchBar.value.trim();
+                if (query) {
+                    window.location.href = `search-results.html?query=${encodeURIComponent(query)}`;
+                }
             }
         });
         
         // Hide suggestions when clicking outside
         document.addEventListener('click', (e) => {
             if (e.target !== searchBar) {
-                suggestionsList.style.display = 'none';
+                suggestions.style.display = 'none';
             }
         });
     }
