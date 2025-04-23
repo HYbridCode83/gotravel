@@ -1,4 +1,12 @@
-const destinations = [
+// Import Firebase functions if needed
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+// Firebase configuration - import from firebase-config.js instead of duplicating
+import { db } from './firebase-config.js';
+
+// Fallback destinations array (in case Firebase fetch fails)
+const staticDestinations = [
     "Kuching",
     "Sibu",
     "Miri",
@@ -11,13 +19,41 @@ const destinations = [
     "Limbang",
     "Kota Samarahan",
     "Sarikei"
-    // You can add more destinations from Sarawak or Malaysia if needed
 ];
+
+// Store destinations fetched from Firebase
+let destinations = [...staticDestinations];
+
+// Fetch destinations from Firebase
+async function fetchDestinations() {
+    try {
+        const destinationsCollection = collection(db, "destinations");
+        const querySnapshot = await getDocs(destinationsCollection);
+        
+        // If we get results, update the destinations array
+        if (!querySnapshot.empty) {
+            destinations = [];
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                if (data.name) {
+                    destinations.push(data.name);
+                }
+            });
+        }
+        console.log("Destinations loaded:", destinations.length);
+    } catch (error) {
+        console.error("Error getting destinations:", error);
+        // Keep using the static destinations if Firebase fetch fails
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     const searchBar = document.getElementById('search-bar');
     const suggestions = document.getElementById('suggestions');
     const searchButton = document.getElementById('search-button');
+    
+    // Initialize by fetching destinations from Firebase
+    fetchDestinations();
     
     if (searchBar && suggestions) {
         searchBar.addEventListener('input', () => {
