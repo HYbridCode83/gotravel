@@ -5,8 +5,139 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - GO TRAVEL</title>
     <link rel="stylesheet" href="css/styles.css">
-    <style>
-        /* Copy the styles from login.html */
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .logo {
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav a {
+            text-decoration: none;
+            color: #666;
+        }
+        
+        .nav .active {
+            color: black;
+            font-weight: bold;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        
+        .social-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .social-button {
+            flex: 1;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .facebook-button {
+            background-color: #3b5998;
+            color: white;
+            border: none;
+        }
+        
+        .google-button {
+            background-color: white;
+            color: black;
+            border: 1px solid #ddd;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .forgot-link {
+            display: block;
+            text-align: right;
+            font-size: 12px;
+            color: #666;
+            text-decoration: none;
+            margin-top: 5px;
+        }
+        
+        .signin-button {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        
+        .signup-text {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 15px;
+            color: #666;
+        }
+        
+        .signup-text a {
+            color: #333;
+            text-decoration: none;
+        }
     </style>
     <script src="js/firebase-config.js" type="module"></script>
     <script src="js/auth.js" type="module"></script>
