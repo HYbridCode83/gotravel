@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
+    <title>Sign In - GO TRAVEL</title>
+    <link rel="stylesheet" href="css/styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -138,28 +139,26 @@
             text-decoration: none;
         }
     </style>
+    <script src="js/firebase-config.js" type="module"></script>
+    <script src="js/auth.js" type="module"></script>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">P</div>
+            <div class="logo">GO TRAVEL</div>
             <div class="nav">
-                <a href="#">Home</a>
-                <a href="#">About</a>
-                <a href="#">Contact</a>
-                <a href="#">Support</a>
-                <a href="login.html" class="active">Log In</a>
-            </div>
-        </div>
+    <a href="index.html">Home</a>
+    <a href="index.html#destinations">Places</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="login.html" class="active">Log In</a>
+</div>
+</div>
         
-        <h1>Sign In With</h1>
+        <h1>Sign In</h1>
         
         <div class="social-buttons">
-            <button class="social-button facebook-button">
-                <span>Facebook</span>
-            </button>
-            <button class="social-button google-button">
-                <span>Google</span>
+            <button type="button" id="googleSignIn" class="social-button google-button">
+                <span>Sign in with Google</span>
             </button>
         </div>
         
@@ -168,24 +167,29 @@
             <hr style="position: absolute; top: 50%; left: 0; right: 0; margin: 0; border: none; border-top: 1px solid #ddd; z-index: 0;">
         </div>
         
-        <form>
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username">
-            </div>
-            
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password">
-                <a href="#" class="forgot-link">Forgot?</a>
-            </div>
+       <form id="loginForm">
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+        <a href="#" id="forgotPassword" class="forgot-link">Forgot?</a>
+    </div>
+    
+    <button type="submit" class="signin-button">Sign In</button>
+</form>
             
             <button type="submit" class="signin-button">Sign In</button>
         </form>
         
         <div class="signup-text">
-            Don't have an account? <a href="#">Sign up</a>
+            Don't have an account? <a href="signup.html">Sign up</a>
         </div>
     </div>
+
+    <div id="error-message" style="color: red; text-align: center; margin-top: 10px;"></div>
 </body>
 </html>
