@@ -159,4 +159,37 @@ auth.onAuthStateChanged((user) => {
         console.log('User is signed out');
         // You can update UI elements here to show logged-out state
     }
+    
+    
+    // Sign up with email and password
+async function signUp(email, password) {
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        return userCredential.user;
+    } catch (error) {
+        console.error('Error signing up:', error);
+        throw error;
+    }
+}
+
+// Sign in with email and password
+async function signIn(email, password) {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        return userCredential.user;
+    } catch (error) {
+        console.error('Error signing in:', error);
+        throw error;
+    }
+}
+
+// Sign out
+async function signOut() {
+    try {
+        await auth.signOut();
+    } catch (error) {
+        console.error('Error signing out:', error);
+        throw error;
+    }
+}
 });
