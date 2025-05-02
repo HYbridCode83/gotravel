@@ -13,29 +13,30 @@
             <div class="logo">
                 <a href="index.html">GO TRAVEL</a>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#map">Map</a></li>
-                    <li><a href="#destinations">Places</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="login.html" class="login-btn">Login</a></li>
-                    <li class="user-menu" id="userMenu" style="display: none;">
+           <nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#map">Map</a></li>
+        <li><a href="#destinations">Places</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <!-- User Menu (shows when logged in) -->
+        <li class="user-menu" id="userMenu" style="display: none;">
             <a href="profile.html" id="userProfile">My Profile</a>
             <button id="signOutBtn">Sign Out</button>
         </li>
+        <!-- Login Menu (shows when logged out) -->
         <li id="loginMenuItem">
             <a href="login.html" class="login-btn">Login</a>
         </li>
-                </ul>
-                <div class="search-container">
-    <input type="text" id="search-bar" placeholder="Search destinations..." autocomplete="off">
-    <button type="button" id="search-button">
-        <i class="fas fa-search"></i>
-    </button>
-    <ul id="suggestions"></ul>
-</div>
-            </nav>
+    </ul>
+    <div class="search-container">
+        <input type="text" id="search-bar" placeholder="Search destinations..." autocomplete="off">
+        <button type="button" id="search-button">
+            <i class="fas fa-search"></i>
+        </button>
+        <ul id="suggestions"></ul>
+    </div>
+</nav>
         </div>
     </header>
 
