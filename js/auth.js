@@ -2,8 +2,13 @@ import { auth } from './firebase-config.js';
 import { 
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
-    sendPasswordResetEmail
+    sendPasswordResetEmail,
+    GoogleAuthProvider,
+    signInWithPopup
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+// Initialize Google Auth Provider
+const googleProvider = new GoogleAuthProvider();
 
 // Login functionality
 document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
@@ -15,7 +20,17 @@ document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
         await signInWithEmailAndPassword(auth, email, password);
         window.location.href = 'index.html';
     } catch (error) {
-        alert('Error: ' + error.message);
+        document.getElementById('error-message').textContent = error.message;
+    }
+});
+
+// Google Sign In
+document.getElementById('googleSignIn')?.addEventListener('click', async () => {
+    try {
+        await signInWithPopup(auth, googleProvider);
+        window.location.href = 'index.html';
+    } catch (error) {
+        document.getElementById('error-message').textContent = error.message;
     }
 });
 
@@ -24,7 +39,7 @@ document.getElementById('forgotPassword')?.addEventListener('click', async (e) =
     e.preventDefault();
     const email = document.getElementById('email').value;
     if (!email) {
-        alert('Please enter your email first');
+        document.getElementById('error-message').textContent = 'Please enter your email first';
         return;
     }
 
@@ -32,6 +47,16 @@ document.getElementById('forgotPassword')?.addEventListener('click', async (e) =
         await sendPasswordResetEmail(auth, email);
         alert('Password reset email sent!');
     } catch (error) {
-        alert('Error: ' + error.message);
+        document.getElementById('error-message').textContent = error.message;
+    }
+});
+
+// Auth state observer
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        // User is signed in
+        if (window.location.pathname.includes('login.html')) {
+            window.location.href = 'index.html';
+        }
     }
 });
