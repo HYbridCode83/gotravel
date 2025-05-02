@@ -147,3 +147,16 @@ async function fetchSavedDestinations() {
         return [];
     }
 }
+
+// Add auth state observer
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        // User is signed in
+        console.log('User is signed in:', user.uid);
+        // You can update UI elements here to show logged-in state
+    } else {
+        // User is signed out
+        console.log('User is signed out');
+        // You can update UI elements here to show logged-out state
+    }
+});
