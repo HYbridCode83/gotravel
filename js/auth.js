@@ -1,14 +1,38 @@
-import { auth } from './firebase-config.js';
+import { auth, db } from './firebase-config.js';
 import { 
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     sendPasswordResetEmail,
     GoogleAuthProvider,
-    signInWithPopup
+    signInWithPopup,
+    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import {
+    doc,
+    setDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 // Initialize Google Auth Provider
 const googleProvider = new GoogleAuthProvider();
+
+// Create user profile in Firestore
+async function createUserProfile(user) {
+    const userRef = doc(db, 'users', user.uid);
+    const userData = {
+        displayName: user.displayName || '',
+        email: user.email,
+        photoURL: user.photoURL || '',
+        createdAt: serverTimestamp(),
+        lastLogin: serverTimestamp()
+    };
+
+    try {
+        await setDoc(userRef, userData, { merge: true });
+    } catch (error) {
+        console.error("Error creating user profile:", error);
+    }
+}
 
 // Login functionality
 document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
@@ -17,7 +41,29 @@ document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
     const password = document.getElementById('password').value;
 
     try {
-        await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        await createUserProfile(userCredential.user);
+        window.location.href = 'index.html';
+    } catch (error) {
+        document.getElementById('error-message').textContent = error.message;
+    }
+});
+
+// Sign Up functionality
+document.getElementById('signupForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (password !== confirmPassword) {
+        document.getElementById('error-message').textContent = 'Passwords do not match';
+        return;
+    }
+
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await createUserProfile(userCredential.user);
         window.location.href = 'index.html';
     } catch (error) {
         document.getElementById('error-message').textContent = error.message;
@@ -27,7 +73,8 @@ document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
 // Google Sign In
 document.getElementById('googleSignIn')?.addEventListener('click', async () => {
     try {
-        await signInWithPopup(auth, googleProvider);
+        const result = await signInWithPopup(auth, googleProvider);
+        await createUserProfile(result.user);
         window.location.href = 'index.html';
     } catch (error) {
         document.getElementById('error-message').textContent = error.message;
@@ -52,31 +99,25 @@ document.getElementById('forgotPassword')?.addEventListener('click', async (e) =
 });
 
 // Auth state observer
-auth.onAuthStateChanged((user) => {
+onAuthStateChanged(auth, (user) => {
     if (user) {
-        // User is signed in
-        if (window.location.pathname.includes('login.html')) {
-            window.location.href = 'index.html';
+        // Update UI for logged in user
+        const loginMenuItems = document.querySelectorAll('#loginMenuItem');
+        loginMenuItems.forEach(item => item.style.display = 'none');
+        
+        const userMenus = document.querySelectorAll('#userMenu');
+        userMenus.forEach(menu => menu.style.display = 'block');
+    } else {
+        // Update UI for logged out user
+        const loginMenuItems = document.querySelectorAll('#loginMenuItem');
+        loginMenuItems.forEach(item => item.style.display = 'block');
+        
+        const userMenus = document.querySelectorAll('#userMenu');
+        userMenus.forEach(menu => menu.style.display = 'none');
+        
+        // Redirect to login if on profile page
+        if (window.location.pathname.includes('profile.html')) {
+            window.location.href = 'login.html';
         }
-    }
-});
-
-
-document.getElementById('signupForm')?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-
-    if (password !== confirmPassword) {
-        document.getElementById('error-message').textContent = 'Passwords do not match';
-        return;
-    }
-
-    try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        window.location.href = 'index.html';
-    } catch (error) {
-        document.getElementById('error-message').textContent = error.message;
     }
 });
