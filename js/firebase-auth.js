@@ -5,7 +5,7 @@ const auth = getAuth();
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
 
-// Function to handle email/password login
+// Add or extend functions from here for user login/logout and state management
 async function loginWithEmail(email, password) {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -15,6 +15,16 @@ async function loginWithEmail(email, password) {
         return { success: false, error: error.message };
     }
 }
+
+auth.onAuthStateChanged(user => {
+    if (user) {
+        console.log("User logged in:", user.email);
+        // Render user-specific features
+    } else {
+        console.log("User logged out");
+        // Render guest view
+    }
+});
 
 // Function to handle registration
 async function registerWithEmail(email, password) {
