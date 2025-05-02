@@ -98,6 +98,21 @@ document.getElementById('forgotPassword')?.addEventListener('click', async (e) =
     }
 });
 
+// Add this to auth.js
+function handleAuthError(error) {
+    const errorMessage = {
+        'auth/user-not-found': 'No user found with this email.',
+        'auth/wrong-password': 'Incorrect password.',
+        'auth/email-already-in-use': 'Email already registered.',
+        'auth/weak-password': 'Password should be at least 6 characters.',
+        'auth/invalid-email': 'Invalid email address.',
+        'auth/operation-not-allowed': 'Operation not allowed.',
+        'auth/popup-closed-by-user': 'Sign-in popup was closed before finishing.',
+    }[error.code] || error.message;
+
+    document.getElementById('error-message').textContent = errorMessage;
+}
+
 // Auth state observer
 onAuthStateChanged(auth, (user) => {
     if (user) {
