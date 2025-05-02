@@ -117,8 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// Add functions for saving and fetching user-specific destinations
-import { collection, addDoc, getDocs } from "firebase/firestore";
 
 async function saveDestination(destination) {
     const user = auth.currentUser;
