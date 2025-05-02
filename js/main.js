@@ -1,9 +1,13 @@
-// Import Firebase functions if needed
+// Import Firebase functions
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
-// Firebase configuration - import from firebase-config.js instead of duplicating
+// Firebase configuration 
 import { db } from './firebase-config.js';
+
+// Initialize auth
+const auth = getAuth();
 
 // Fallback destinations array (in case Firebase fetch fails)
 const staticDestinations = [
@@ -117,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
+// Save a destination for the logged-in user
 async function saveDestination(destination) {
     const user = auth.currentUser;
     if (!user) return alert("Please log in to save destinations.");
