@@ -60,3 +60,23 @@ auth.onAuthStateChanged((user) => {
         }
     }
 });
+
+
+document.getElementById('signupForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (password !== confirmPassword) {
+        document.getElementById('error-message').textContent = 'Passwords do not match';
+        return;
+    }
+
+    try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        window.location.href = 'index.html';
+    } catch (error) {
+        document.getElementById('error-message').textContent = error.message;
+    }
+});
