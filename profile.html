@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - GO TRAVEL</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .profile-email {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .profile-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .saved-destination {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .destination-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .search-history-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .edit-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .logout-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">GO TRAVEL</div>
+            <div class="nav">
+                <a href="index.html">Home</a>
+                <a href="index.html#destinations">Places</a>
+                <a href="index.html#contact">Contact</a>
+                <a href="profile.html" class="active">Profile</a>
+            </div>
+        </div>
+
+        <div class="profile-container">
+            <div class="profile-header">
+                <img id="profileAvatar" src="images/default-avatar.png" alt="Profile Picture" class="profile-avatar">
+                <div class="profile-info">
+                    <h1 id="profileName" class="profile-name">Loading...</h1>
+                    <div id="profileEmail" class="profile-email">Loading...</div>
+                    <div>
+                        <button id="editProfileBtn" class="edit-button">Edit Profile</button>
+                        <button id="logoutBtn" class="logout-button">Log Out</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-sections">
+                <div class="section">
+                    <h2 class="section-title">Saved Destinations</h2>
+                    <div id="savedDestinations">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Recent Searches</h2>
+                    <div id="searchHistory">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/firebase-config.js" type="module"></script>
+    <script src="js/profile.js" type="module"></script>
+</body>
+</html>
