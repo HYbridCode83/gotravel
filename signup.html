@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Sign Up - GO TRAVEL</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Copy the styles from login.html */
+    </style>
+    <script src="js/firebase-config.js" type="module"></script>
+    <script src="js/auth.js" type="module"></script>
 </head>
 <body>
-    <div class="container login-container">
+    <div class="container">
         <div class="header">
-            <a href="index.html" class="logo">P</a>
+            <div class="logo">GO TRAVEL</div>
             <div class="nav">
                 <a href="index.html">Home</a>
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
-                <a href="support.html">Support</a>
+                <a href="index.html#destinations">Places</a>
+                <a href="index.html#contact">Contact</a>
                 <a href="login.html">Log In</a>
             </div>
         </div>
@@ -22,42 +26,30 @@
         <h1>Create Account</h1>
         
         <div class="social-buttons">
-            <button class="social-button facebook-button">
-                <span>Facebook</span>
-            </button>
-            <button class="social-button google-button">
-                <span>Google</span>
+            <button type="button" id="googleSignIn" class="social-button google-button">
+                <span>Sign up with Google</span>
             </button>
         </div>
         
-        <div class="divider">
-            <span>OR</span>
+        <div style="text-align: center; margin: 15px 0; color: #999; position: relative;">
+            <span style="background: white; padding: 0 10px; position: relative; z-index: 1;">OR</span>
+            <hr style="position: absolute; top: 50%; left: 0; right: 0; margin: 0; border: none; border-top: 1px solid #ddd; z-index: 0;">
         </div>
         
-        <form action="#" method="post">
-            <div class="form-group">
-                <label for="fullname">Full Name</label>
-                <input type="text" id="fullname" name="fullname" required>
-            </div>
-            
+        <form id="signupForm">
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
             </div>
             
             <div class="form-group">
-                <label for="new-username">Username</label>
-                <input type="text" id="new-username" name="username" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
             </div>
             
             <div class="form-group">
-                <label for="new-password">Password</label>
-                <input type="password" id="new-password" name="password" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" required>
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
             </div>
             
             <button type="submit" class="signin-button">Create Account</button>
@@ -68,6 +60,6 @@
         </div>
     </div>
 
-    <script src="js/main.js"></script>
+    <div id="error-message" style="color: red; text-align: center; margin-top: 10px;"></div>
 </body>
 </html>
