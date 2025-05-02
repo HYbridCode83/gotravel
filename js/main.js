@@ -115,3 +115,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+
+// Add functions for saving and fetching user-specific destinations
+import { collection, addDoc, getDocs } from "firebase/firestore";
+
+async function saveDestination(destination) {
+    const user = auth.currentUser;
+    if (!user) return alert("Please log in to save destinations.");
+
+    try {
+        const docRef = await addDoc(collection(db, "users", user.uid, "savedDestinations"), destination);
+        console.log("Destination saved with ID:", docRef.id);
+    } catch (error) {
+        console.error("Error saving destination:", error);
+    }
+}
+
+async function fetchSavedDestinations() {
+    const user = auth.currentUser;
+    if (!user) return [];
+
+    try {
+        const q = query(collection(db, "users", user.uid, "savedDestinations"));
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.docs.map(doc => doc.data());
+    } catch (error) {
+        console.error("Error fetching saved destinations:", error);
+        return [];
+    }
+}
