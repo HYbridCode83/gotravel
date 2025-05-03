@@ -127,6 +127,7 @@ nav ul li {
     border-radius: 3px;
 }
 
+
 /* Hero Section */
 .hero {
     height: 60vh;
@@ -379,6 +380,11 @@ nav {
 @media (max-width: 768px) {
     .search-container {
         margin-left: 10px;
+        width: auto;
+    }
+    
+    .search-container form {
+        width: auto;
     }
     
     .search-container input[type="text"] {
@@ -390,16 +396,17 @@ nav {
     .nav-container {
         flex-direction: column;
         align-items: center;
+        padding: 10px 3%;
     }
     
     nav {
         margin-top: 10px;
         flex-direction: column;
+        width: 100%;
     }
     
     .search-container {
-        margin-left: 0;
-        margin-top: 10px;
+        margin: 10px 0;
         width: 100%;
     }
     
@@ -408,38 +415,8 @@ nav {
     }
     
     .search-container input[type="text"] {
-        width: 100%;
+        flex: 1;
     }
-}
-
-/* Suggestions dropdown */
-.suggestions-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-top: none;
-    width: 100%;
-    max-height: 200px;
-    overflow-y: auto;
-    z-index: 1001;
-    list-style: none;
-    display: none;
-}
-
-.search-container {
-    position: relative;
-}
-
-.suggestions-list li {
-    padding: 8px 12px;
-    cursor: pointer;
-    text-align: left;
-}
-
-.suggestions-list li:hover {
-    background-color: #f5f5f5;
 }
 
 /* Search Section Styles */
@@ -450,11 +427,6 @@ nav {
     max-width: 800px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.search-container {
-    width: 100%;
-    position: relative;
 }
 
 #search-bar {
@@ -521,4 +493,31 @@ nav {
 
 .learn-more:hover {
     background-color: #27ae60;
+}
+
+
+/* Suggestions dropdown */
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1001;
+    list-style: none;
+    display: none;
+}
+
+.suggestions-list li {
+    padding: 8px 12px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.suggestions-list li:hover {
+    background-color: #f5f5f5;
 }
