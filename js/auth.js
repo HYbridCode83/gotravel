@@ -110,55 +110,60 @@ const googleProvider = new GoogleAuthProvider();
 
 // Create user profile in Firestore
 async function createUserProfile(user) {
+    if (!user) return;
+    
     const userRef = doc(db, 'users', user.uid);
     const userData = {
-        displayName: user.displayName || '',
+        displayName: user.displayName || user.email.split('@')[0], // Use email username if no display name
         email: user.email,
         photoURL: user.photoURL || '',
         createdAt: serverTimestamp(),
-        lastLogin: serverTimestamp()
+        lastLogin: serverTimestamp(),
+        role: 'user', // Add basic role management
+        settings: {
+            notifications: true,
+            theme: 'light'
+        }
     };
 
     try {
         await setDoc(userRef, userData, { merge: true });
     } catch (error) {
         console.error("Error creating user profile:", error);
+        throw error; // Propagate error for handling
     }
 }
 
 // Login functionality
 document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('email').value;
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
-
+    
     try {
+        validateUserData(email, password);
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         await createUserProfile(userCredential.user);
         window.location.href = 'index.html';
     } catch (error) {
-        document.getElementById('error-message').textContent = error.message;
+        handleAuthError(error);
     }
 });
 
 // Sign Up functionality
 document.getElementById('signupForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('email').value;
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
-
-    if (password !== confirmPassword) {
-        document.getElementById('error-message').textContent = 'Passwords do not match';
-        return;
-    }
-
+    
     try {
+        validateUserData(email, password, confirmPassword);
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await createUserProfile(userCredential.user);
         window.location.href = 'index.html';
     } catch (error) {
-        document.getElementById('error-message').textContent = error.message;
+        handleAuthError(error);
     }
 });
 
@@ -190,41 +195,29 @@ document.getElementById('forgotPassword')?.addEventListener('click', async (e) =
     }
 });
 
+// Add user data validation
+function validateUserData(email, password, confirmPassword = null) {
+    if (!email || !password) {
+        throw new Error('Email and password are required');
+    }
 
-function handleAuthError(error) {
-    const errorMessage = {
-        'auth/user-not-found': 'No user found with this email.',
-        'auth/wrong-password': 'Incorrect password.',
-        'auth/email-already-in-use': 'Email already registered.',
-        'auth/weak-password': 'Password should be at least 6 characters.',
-        'auth/invalid-email': 'Invalid email address.',
-        'auth/operation-not-allowed': 'Operation not allowed.',
-        'auth/popup-closed-by-user': 'Sign-in popup was closed before finishing.',
-    }[error.code] || error.message;
+    if (!email.includes('@')) {
+        throw new Error('Invalid email format');
+    }
 
-    document.getElementById('error-message').textContent = errorMessage;
+    if (password.length < 6) {
+        throw new Error('Password must be at least 6 characters');
+    }
+
+    if (confirmPassword !== null && password !== confirmPassword) {
+        throw new Error('Passwords do not match');
+    }
 }
 
-// Auth state observer
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        // Update UI for logged in user
-        const loginMenuItems = document.querySelectorAll('#loginMenuItem');
-        loginMenuItems.forEach(item => item.style.display = 'none');
-        
-        const userMenus = document.querySelectorAll('#userMenu');
-        userMenus.forEach(menu => menu.style.display = 'block');
-    } else {
-        // Update UI for logged out user
-        const loginMenuItems = document.querySelectorAll('#loginMenuItem');
-        loginMenuItems.forEach(item => item.style.display = 'block');
-        
-        const userMenus = document.querySelectorAll('#userMenu');
-        userMenus.forEach(menu => menu.style.display = 'none');
-        
-        // Redirect to login if on profile page
-        if (window.location.pathname.includes('profile.html')) {
-            window.location.href = 'login.html';
-        }
-    }
-});
+function setLoading(isLoading) {
+    const buttons = document.querySelectorAll('button[type="submit"]');
+    buttons.forEach(button => {
+        button.disabled = isLoading;
+        button.textContent = isLoading ? 'Loading...' : button.dataset.originalText || 'Submit';
+    });
+}
