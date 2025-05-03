@@ -141,14 +141,23 @@ nav ul li {
     outline: none;
     width: 180px;
     font-size: 14px;
+    height: 36px;
 }
 
 .search-container button {
+    height: 36px;
     background-color: #333;
     color: white;
     border: none;
     padding: 8px 12px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-container button:hover {
+    background-color: #555;
 }
 
 /* Suggestions dropdown */
@@ -341,6 +350,46 @@ footer {
     color: #666;
     margin: 5px 0;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    /* Navigation */
+    .search-container {
+        margin-left: 10px;
+        width: auto;
+    }
+    
+    .search-container form {
+        width: auto;
+    }
+    
+    .search-container input[type="text"] {
+        width: 120px;
+    }
+
+    /* Content */
+    .hero-content h1 {
+        font-size: 36px;
+    }
+    
+    .hero-content p {
+        font-size: 18px;
+    }
+    
+    .about-container {
+        flex-direction: column;
+    }
+    
+    .flag-container {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .places-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
