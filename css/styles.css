@@ -390,53 +390,6 @@ footer {
     }
 }
 
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .hero-content h1 {
-        font-size: 36px;
-    }
-    
-    .hero-content p {
-        font-size: 18px;
-    }
-    
-    .about-container {
-        flex-direction: column;
-    }
-    
-    .flag-container {
-        margin-right: 0;
-        margin-bottom: 20px;
-    }
-    
-    .places-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 480px) {
-    .places-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Responsive adjustments for search bar */
-@media (max-width: 768px) {
-    .search-container {
-        margin-left: 10px;
-        width: auto;
-    }
-    
-    .search-container form {
-        width: auto;
-    }
-    
-    .search-container input[type="text"] {
-        width: 120px;
-    }
-}
-
 @media (max-width: 600px) {
     .nav-container {
         flex-direction: column;
@@ -461,5 +414,12 @@ footer {
     
     .search-container input[type="text"] {
         flex: 1;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .places-grid {
+        grid-template-columns: 1fr;
     }
 }
