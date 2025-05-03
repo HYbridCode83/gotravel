@@ -26,6 +26,65 @@ header {
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+/* ADD these consolidated styles */
+/* Navigation and User Menu */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.user-menu {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-menu-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Profile and Logout Buttons */
+.profile-btn, .logout-btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.profile-btn {
+    background-color: #007bff;
+    color: white !important;
+}
+
+.profile-btn:hover {
+    background-color: #0056b3;
+}
+
+.logout-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
+}
+
 
 .nav-container {
     display: flex;
@@ -83,25 +142,9 @@ nav ul {
     margin-left: auto; /* This will push the user menu to the right */
 }
 
-.user-menu {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
 .user-menu a {
     color: #333;
     text-decoration: none;
-}
-
-#signOutBtn {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
 }
 
 #signOutBtn:hover {
@@ -112,11 +155,6 @@ nav ul {
     font-size: 22px;
     font-weight: bold;
     color: #333;
-}
-
-nav ul {
-    display: flex;
-    list-style: none;
 }
 
 nav ul li {
@@ -331,6 +369,14 @@ footer {
     align-items: center;
 }
 
+/* Search Container - Consolidated Style */
+.search-container {
+    position: relative;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
 .search-container form {
     display: flex;
     border: 1px solid #ddd;
@@ -366,6 +412,23 @@ footer {
 nav {
     display: flex;
     align-items: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 10px 3%;
+    }
+    
+    .user-menu-container {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .profile-btn, .logout-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
 }
 
 /* Responsive adjustments for search bar */
