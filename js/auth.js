@@ -5,13 +5,105 @@ import {
     sendPasswordResetEmail,
     GoogleAuthProvider,
     signInWithPopup,
-    onAuthStateChanged
+    onAuthStateChanged,
+    signOut
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 import {
     doc,
     setDoc,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+// Add this right after your imports
+let currentUser = null;
+
+// Update your onAuthStateChanged function
+onAuthStateChanged(auth, async (user) => {
+    currentUser = user; // Store the current user
+
+    if (user) {
+        // User is logged in
+        try {
+            // Update last login time
+            const userRef = doc(db, 'users', user.uid);
+            await setDoc(userRef, {
+                lastLogin: serverTimestamp()
+            }, { merge: true });
+
+            // Update UI elements
+            document.querySelectorAll('#loginMenuItem').forEach(item => {
+                item.style.display = 'none';
+            });
+            
+            document.querySelectorAll('#userMenu').forEach(menu => {
+                menu.style.display = 'flex';
+                const profileBtn = menu.querySelector('#userProfile');
+                if (profileBtn) {
+                    profileBtn.textContent = user.displayName || 'My Profile';
+                }
+            });
+
+        } catch (error) {
+            console.error('Error updating user data:', error);
+        }
+    } else {
+        // User is logged out
+        document.querySelectorAll('#loginMenuItem').forEach(item => {
+            item.style.display = 'block';
+        });
+        
+        document.querySelectorAll('#userMenu').forEach(menu => {
+            menu.style.display = 'none';
+        });
+
+        // Redirect if on protected pages
+        const protectedPages = ['profile.html'];
+        if (protectedPages.some(page => window.location.pathname.includes(page))) {
+            window.location.href = 'login.html';
+        }
+    }
+});
+
+// Add sign out functionality
+document.getElementById('signOutBtn')?.addEventListener('click', async () => {
+    try {
+        // Update last logout time before signing out
+        if (currentUser) {
+            const userRef = doc(db, 'users', currentUser.uid);
+            await setDoc(userRef, {
+                lastLogout: serverTimestamp()
+            }, { merge: true });
+        }
+        
+        await signOut(auth);
+        window.location.href = 'index.html';
+    } catch (error) {
+        console.error('Error signing out:', error);
+        handleAuthError(error);
+    }
+});
+
+// Update your handleAuthError function to include sign out errors
+function handleAuthError(error) {
+    const errorMessage = {
+        'auth/user-not-found': 'No user found with this email.',
+        'auth/wrong-password': 'Incorrect password.',
+        'auth/email-already-in-use': 'Email already registered.',
+        'auth/weak-password': 'Password should be at least 6 characters.',
+        'auth/invalid-email': 'Invalid email address.',
+        'auth/operation-not-allowed': 'Operation not allowed.',
+        'auth/popup-closed-by-user': 'Sign-in popup was closed before finishing.',
+        'auth/requires-recent-login': 'Please sign in again to complete this operation.',
+        'auth/network-request-failed': 'Network error. Please check your connection.',
+    }[error.code] || error.message;
+
+    const errorElement = document.getElementById('error-message');
+    if (errorElement) {
+        errorElement.textContent = errorMessage;
+    } else {
+        console.error(errorMessage);
+    }
+}
 
 // Initialize Google Auth Provider
 const googleProvider = new GoogleAuthProvider();
@@ -98,7 +190,7 @@ document.getElementById('forgotPassword')?.addEventListener('click', async (e) =
     }
 });
 
-// Add this to auth.js
+
 function handleAuthError(error) {
     const errorMessage = {
         'auth/user-not-found': 'No user found with this email.',
