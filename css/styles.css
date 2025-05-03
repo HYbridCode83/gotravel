@@ -126,6 +126,7 @@ nav ul li {
     align-items: center;
     margin-left: 20px;
     width: auto;
+    z-index: 1000;
 }
 
 .search-container form {
@@ -133,6 +134,7 @@ nav ul li {
     border: 1px solid #ddd;
     border-radius: 3px;
     overflow: hidden;
+    width: 100%;
 }
 
 .search-container input[type="text"] {
@@ -165,6 +167,7 @@ nav ul li {
     position: absolute;
     top: 100%;
     left: 0;
+    right: 0;
     background-color: white;
     border: 1px solid #ddd;
     border-top: none;
@@ -174,6 +177,8 @@ nav ul li {
     z-index: 1001;
     list-style: none;
     display: none;
+    margin-top: -1px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .suggestions-list li {
