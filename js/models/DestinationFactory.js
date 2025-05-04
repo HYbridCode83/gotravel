@@ -1,17 +1,19 @@
-import HistoricalDestination from './HistoricalDestination';
-import NatureDestination from './NatureDestination';
-import CulturalDestination from './CulturalDestination';
-import Destination from './Destination';
+import Destination from './Destination.js';
+import CulturalDestination from './CulturalDestination.js';
+import HistoricalDestination from './HistoricalDestination.js';
+import NatureDestination from './NatureDestination.js';
 
 class DestinationFactory {
     static createDestination(firebaseData) {
-        switch(firebaseData.category?.toLowerCase()) {
+        const category = firebaseData.category?.toLowerCase() || '';
+        
+        switch(category) {
+            case 'cultural':
+                return new CulturalDestination(firebaseData);
             case 'historical':
                 return new HistoricalDestination(firebaseData);
             case 'nature':
                 return new NatureDestination(firebaseData);
-            case 'cultural':
-                return new CulturalDestination(firebaseData);
             default:
                 return new Destination(firebaseData);
         }
