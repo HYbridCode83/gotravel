@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const searchTerm = searchBar.value.trim();
         if (searchTerm.length >= 2) {
             const filteredDestinations = filterDestinations(searchTerm);
-            displaySuggestions(filteredDestinations);
+            displaySuggestions(filteredDestinations, suggestionsList);  // Fixed: Added suggestionsList parameter
         } else {
             suggestionsList.style.display = 'none';
         }
@@ -37,29 +37,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             suggestionsList.style.display = 'none';
         }
     });
-
-    // Function to display suggestions
-    function displaySuggestions(filteredDestinations) {
-        suggestionsList.innerHTML = '';
-        
-        if (filteredDestinations.length === 0) {
-            suggestionsList.style.display = 'none';
-            return;
-        }
-        
-        filteredDestinations.forEach(destination => {
-            const li = document.createElement('li');
-            li.textContent = destination.name;
-            li.addEventListener('click', () => {
-                searchBar.value = destination.name;
-                suggestionsList.style.display = 'none';
-                handleSearch();
-            });
-            suggestionsList.appendChild(li);
-        });
-        
-        suggestionsList.style.display = 'block';
-    }
 
     // Function to handle search execution
     function handleSearch() {
