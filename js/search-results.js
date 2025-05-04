@@ -220,7 +220,6 @@ function showDestinationDetails(destination) {
     }
     
     // Create details for info like bestTime, budget, etc. if available
-    ${specialFeaturesHTML}
     let detailsHTML = '';
     
     if (destination.bestTimeToVisit || destination.budget || destination.duration || destination.category) {
@@ -274,7 +273,8 @@ function showDestinationDetails(destination) {
                 <div style="line-height: 1.6; margin-bottom: 15px;">
                     ${destination.description || 'No description available.'}
                 </div>
-                
+
+                ${specialFeaturesHTML}
                 ${detailsHTML}
                 ${attractionsHTML}
             </div>
