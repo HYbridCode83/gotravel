@@ -1,9 +1,14 @@
-import { db, fetchDestinations, filterDestinations, displaySuggestions } from './firebase-init.js';
+import { db, fetchDestinations, filterDestinations, displaySuggestions } from './firebase-config.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const searchBar = document.getElementById('search-bar');
     const suggestionsList = document.getElementById('suggestions');
     const searchButton = document.getElementById('search-button');
+
+    if (!searchBar || !suggestionsList || !searchButton) {
+        console.error('Search elements not found');
+        return;
+    }
 
     // Initial fetch of destinations
     await fetchDestinations();
@@ -13,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const searchTerm = searchBar.value.trim();
         if (searchTerm.length >= 2) {
             const filteredDestinations = filterDestinations(searchTerm);
-            displaySuggestions(filteredDestinations, suggestionsList);  // Fixed: Added suggestionsList parameter
+            displaySuggestions(filteredDestinations, suggestionsList);
         } else {
             suggestionsList.style.display = 'none';
         }
