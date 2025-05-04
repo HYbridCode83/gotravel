@@ -1,4 +1,4 @@
-import { db, fetchDestinations, filterDestinations } from './firebase-init.js';
+import { db, fetchDestinations, filterDestinations, displaySuggestions } from './firebase-init.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const searchBar = document.getElementById('search-bar');
