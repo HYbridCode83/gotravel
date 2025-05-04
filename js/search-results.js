@@ -29,6 +29,10 @@ function getSearchQueryFromUrl() {
     return urlParams.get('query');
 }
 
+import { HistoricalDestination } from './models/HistoricalDestination.js';
+import { NatureDestination } from './models/NatureDestination.js';
+import { CulturalDestination } from './models/CulturalDestination.js';
+
 // Format search results
 function displayResults(searchQuery, results) {
     // Clear loading indicator
