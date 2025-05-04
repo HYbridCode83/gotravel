@@ -30,13 +30,20 @@ async function fetchDestinations() {
         
         allDestinations = [];
         querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            console.log('Fetched destination:', {
+                id: doc.id,
+                name: data.name,
+                location: data.location,
+                category: data.category
+            });
             allDestinations.push({
                 id: doc.id,
-                ...doc.data()
+                ...data
             });
         });
         
-        console.log("Destinations loaded:", allDestinations.length);
+        console.log("Total destinations loaded:", allDestinations.length);
         return allDestinations;
     } catch (error) {
         console.error("Error fetching destinations:", error);
