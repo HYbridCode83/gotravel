@@ -105,6 +105,7 @@ function displayResults(searchQuery, results) {
     console.log('Displaying results for:', searchQuery);
     console.log('Number of results:', results.length);
     console.log('Results:', results); 
+    
     const searchResultsContainer = document.getElementById('search-results');
     searchResultsContainer.innerHTML = '';
     
