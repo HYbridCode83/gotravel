@@ -46,3 +46,37 @@ searchBar.addEventListener("input", () => {
         console.error("Error fetching data from Firebase:", error);
     });
 });
+
+async function searchDestinations(query) {
+    try {
+        console.log("Starting search with query:", query);
+        const destinationsRef = collection(db, "destinations");
+        console.log("Getting documents from Firebase...");
+        const querySnapshot = await getDocs(destinationsRef);
+        
+        const results = [];
+        console.log("Total documents found:", querySnapshot.size);
+        
+        querySnapshot.forEach((doc) => {
+            console.log("Processing document:", doc.id);
+            const firebaseData = {
+                id: doc.id,
+                ...doc.data()
+            };
+            
+            // Create appropriate destination type using factory
+            const destination = DestinationFactory.createDestination(firebaseData);
+            const searchableText = `${destination.name} ${destination.description} ${destination.location}`.toLowerCase();
+            
+            if (searchableText.includes(query.toLowerCase())) {
+                results.push(destination);
+            }
+        });
+        
+        console.log("Search results:", results.length);
+        return results;
+    } catch (error) {
+        console.error("Detailed error in searchDestinations:", error);
+        return [];
+    }
+}
