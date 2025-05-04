@@ -1,10 +1,7 @@
-// Clean imports
-import { db } from './firebase-init.js';
+// Import only what we need
+import { db, fetchDestinations, filterDestinations } from './firebase-init.js';
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 import DestinationFactory from './models/DestinationFactory.js';
-import { HistoricalDestination } from './models/HistoricalDestination.js';
-import { NatureDestination } from './models/NatureDestination.js';
-import { CulturalDestination } from './models/CulturalDestination.js';
 
 // Main search functionality
 document.addEventListener('DOMContentLoaded', async () => {
@@ -16,20 +13,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (searchQuery) {
         console.log("Searching for:", searchQuery); // Debug log
         try {
-            const destinationsRef = collection(db, "destinations");
-            const querySnapshot = await getDocs(destinationsRef);
-            const destinations = [];
+            // First fetch all destinations
+            await fetchDestinations();
             
-            querySnapshot.forEach((doc) => {
-                const destinationData = { id: doc.id, ...doc.data() };
-                if (destinationData.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    destinationData.description.toLowerCase().includes(searchQuery.toLowerCase())) {
-                    destinations.push(DestinationFactory.createDestination(destinationData));
-                }
-            });
+            // Then filter them based on search query
+            const filteredDestinations = filterDestinations(searchQuery)
+                .map(destinationData => DestinationFactory.createDestination(destinationData));
             
-            console.log("Found destinations:", destinations.length); // Debug log
-            displayResults(searchQuery, destinations);
+            console.log("Found destinations:", filteredDestinations.length); // Debug log
+            displayResults(searchQuery, filteredDestinations);
         } catch (error) {
             console.error("Error searching destinations:", error);
             displayResults(searchQuery, []);
@@ -40,7 +32,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Display results function
 function displayResults(searchQuery, results) {
     console.log("Displaying results"); // Debug log
     const searchResultsContainer = document.getElementById('search-results');
@@ -76,12 +67,10 @@ function displayResults(searchQuery, results) {
     });
 }
 
-// Create destination card function
 function createDestinationCard(destination) {
     const card = document.createElement('div');
     card.className = 'destination-card';
     
-    // Add null checks and default values
     const imageUrl = destination.imageUrl || 'images/default.jpg';
     const name = destination.name || 'Unknown Location';
     const description = destination.description || 'No description available';
@@ -99,7 +88,6 @@ function createDestinationCard(destination) {
     return card;
 }
 
-// Get specific details based on destination type
 function getSpecificDetails(destination) {
     if (!destination.category) return '';
     
@@ -107,22 +95,22 @@ function getSpecificDetails(destination) {
         case 'cultural':
             return `
                 <div class="destination-details cultural">
-                    <p><i class="fas fa-culture"></i> Culture: ${destination.culture || 'N/A'}</p>
-                    <p><i class="fas fa-calendar"></i> Events: ${destination.events ? destination.events.join(', ') : 'N/A'}</p>
+                    <p>Culture: ${destination.culture || 'N/A'}</p>
+                    <p>Events: ${destination.events ? destination.events.join(', ') : 'N/A'}</p>
                 </div>
             `;
         case 'historical':
             return `
                 <div class="destination-details historical">
-                    <p><i class="fas fa-landmark"></i> Year Built: ${destination.yearBuilt || 'N/A'}</p>
-                    <p><i class="fas fa-info-circle"></i> Significance: ${destination.historicalSignificance || 'N/A'}</p>
+                    <p>Year Built: ${destination.yearBuilt || 'N/A'}</p>
+                    <p>Significance: ${destination.historicalSignificance || 'N/A'}</p>
                 </div>
             `;
         case 'nature':
             return `
                 <div class="destination-details nature">
-                    <p><i class="fas fa-sun"></i> Best Season: ${destination.bestSeason || 'N/A'}</p>
-                    <p><i class="fas fa-hiking"></i> Activities: ${destination.activities ? destination.activities.join(', ') : 'N/A'}</p>
+                    <p>Best Season: ${destination.bestSeason || 'N/A'}</p>
+                    <p>Activities: ${destination.activities ? destination.activities.join(', ') : 'N/A'}</p>
                 </div>
             `;
         default:
