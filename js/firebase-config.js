@@ -52,7 +52,8 @@ function filterDestinations(searchTerm) {
     return allDestinations.filter(destination => {
         return destination.name?.toLowerCase().includes(searchTerm) || 
                destination.description?.toLowerCase().includes(searchTerm) ||
-               destination.location?.toLowerCase().includes(searchTerm);
+               destination.location?.toLowerCase().includes(searchTerm) ||
+               destination.category?.toLowerCase().includes(searchTerm);
     });
 }
 
