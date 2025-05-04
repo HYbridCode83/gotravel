@@ -100,3 +100,103 @@ function displaySuggestions(destinations, suggestionsList) {
     
     suggestionsList.style.display = 'block';
 }
+
+function displayResults(searchQuery, results) {
+    const searchResultsContainer = document.getElementById('search-results');
+    searchResultsContainer.innerHTML = '';
+    
+    // Add search title
+    const searchTitle = document.createElement('h2');
+    searchTitle.className = 'search-title';
+    searchTitle.innerHTML = `Search results for: <span class="search-query">${searchQuery}</span>`;
+    searchResultsContainer.appendChild(searchTitle);
+    
+    if (results.length === 0) {
+        searchResultsContainer.innerHTML += `
+            <div class="no-results">
+                <i class="fas fa-search"></i>
+                <h3>No destinations found</h3>
+                <p>We couldn't find any destinations matching "${searchQuery}"</p>
+                <p>Try a different search term or browse our <a href="index.html#destinations">popular destinations</a>.</p>
+            </div>
+        `;
+        return;
+    }
+
+    // Create grid container
+    const resultsGrid = document.createElement('div');
+    resultsGrid.className = 'results-grid';
+    
+    results.forEach(destination => {
+        const card = document.createElement('div');
+        card.className = 'result-card';
+        card.innerHTML = `
+            <img src="${destination.imageUrl || 'images/default.jpg'}" 
+                 alt="${destination.name}" 
+                 class="result-image"
+                 onerror="this.src='images/default.jpg'">
+            <div class="result-content">
+                <h3 class="result-title">${destination.name}</h3>
+                <p class="result-description">${destination.description || 'No description available'}</p>
+                <a href="#" class="view-more">View More</a>
+            </div>
+        `;
+
+        // Add click event for view more button
+        const viewMoreBtn = card.querySelector('.view-more');
+        viewMoreBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showDestinationDetails(destination);
+        });
+
+        resultsGrid.appendChild(card);
+    });
+
+    searchResultsContainer.appendChild(resultsGrid);
+}
+
+// Add this function after displayResults
+function showDestinationDetails(destination) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>${destination.name}</h2>
+            </div>
+            <img src="${destination.imageUrl || 'images/default.jpg'}" 
+                 alt="${destination.name}" 
+                 style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;">
+            <p style="margin: 20px 0;">${destination.description || 'No description available'}</p>
+            ${destination.locationUrl ? `
+                <div class="modal-location">
+                    <a href="${destination.locationUrl}" 
+                       class="location-link" 
+                       target="_blank">
+                        <i class="fas fa-map-marker-alt"></i>
+                        View Location on Map
+                    </a>
+                </div>
+            ` : ''}
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+    modal.style.display = 'block';
+
+    // Close modal functionality
+    const closeBtn = modal.querySelector('.close-modal');
+    closeBtn.onclick = () => {
+        modal.style.display = 'none';
+        modal.remove();
+    };
+
+    // Close modal when clicking outside
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+            modal.remove();
+        }
+    });
+}
