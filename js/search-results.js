@@ -33,10 +33,6 @@ function getSearchQueryFromUrl() {
     return urlParams.get('query');
 }
 
-import { HistoricalDestination } from './models/HistoricalDestination.js';
-import { NatureDestination } from './models/NatureDestination.js';
-import { CulturalDestination } from './models/CulturalDestination.js';
-
 // Format search results
 function displayResults(searchQuery, results) {
     // Clear loading indicator
@@ -134,6 +130,79 @@ function showDestinationDetails(destination) {
     modalOverlay.style.display = 'flex';
     modalOverlay.style.justifyContent = 'center';
     modalOverlay.style.alignItems = 'center';
+
+
+    // Get special features based on destination type
+    let specialFeaturesHTML = '';
+    if (destination instanceof HistoricalDestination) {
+    specialFeaturesHTML = `
+        <div style="margin-top: 20px;">
+            <h4 style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Historical Details</h4>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                <div style="display: flex; align-items: center;">
+                    <i class="fas fa-landmark" style="margin-right: 8px; color: #f39c12;"></i>
+                    <span>Built in: ${destination.yearBuilt}</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <i class="fas fa-book-reader" style="margin-right: 8px; color: #f39c12;"></i>
+                    <span>Significance: ${destination.historicalSignificance}</span>
+                </div>
+            </div>
+        </div>
+    `;
+} else if (destination instanceof NatureDestination) {
+    specialFeaturesHTML = `
+        <div style="margin-top: 20px;">
+            <h4 style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Nature Details</h4>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                <div style="display: flex; align-items: center;">
+                    <i class="fas fa-sun" style="margin-right: 8px; color: #f39c12;"></i>
+                    <span>Best Season: ${destination.bestSeason}</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <i class="fas fa-hiking" style="margin-right: 8px; color: #f39c12;"></i>
+                    <span>Activities: ${destination.activities.join(', ')}</span>
+                </div>
+                ${destination.flora.length ? `
+                    <div style="display: flex; align-items: center;">
+                        <i class="fas fa-leaf" style="margin-right: 8px; color: #f39c12;"></i>
+                        <span>Flora: ${destination.flora.join(', ')}</span>
+                    </div>
+                ` : ''}
+                ${destination.fauna.length ? `
+                    <div style="display: flex; align-items: center;">
+                        <i class="fas fa-paw" style="margin-right: 8px; color: #f39c12;"></i>
+                        <span>Fauna: ${destination.fauna.join(', ')}</span>
+                    </div>
+                ` : ''}
+            </div>
+        </div>
+    `;
+} else if (destination instanceof CulturalDestination) {
+    specialFeaturesHTML = `
+        <div style="margin-top: 20px;">
+            <h4 style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Cultural Details</h4>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                <div style="display: flex; align-items: center;">
+                    <i class="fas fa-theater-masks" style="margin-right: 8px; color: #f39c12;"></i>
+                    <span>Culture: ${destination.culture}</span>
+                </div>
+                ${destination.events.length ? `
+                    <div style="display: flex; align-items: center;">
+                        <i class="fas fa-calendar-alt" style="margin-right: 8px; color: #f39c12;"></i>
+                        <span>Events: ${destination.events.join(', ')}</span>
+                    </div>
+                ` : ''}
+                ${destination.traditions.length ? `
+                    <div style="display: flex; align-items: center;">
+                        <i class="fas fa-scroll" style="margin-right: 8px; color: #f39c12;"></i>
+                        <span>Traditions: ${destination.traditions.join(', ')}</span>
+                    </div>
+                ` : ''}
+            </div>
+        </div>
+    `;
+}
     
     // Format attractions list if available
     let attractionsHTML = '';
@@ -151,6 +220,7 @@ function showDestinationDetails(destination) {
     }
     
     // Create details for info like bestTime, budget, etc. if available
+    ${specialFeaturesHTML}
     let detailsHTML = '';
     
     if (destination.bestTimeToVisit || destination.budget || destination.duration || destination.category) {
