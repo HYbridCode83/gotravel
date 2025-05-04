@@ -1,4 +1,4 @@
-import Destination from './Destination';
+import Destination from './Destination.js';
 
 class CulturalDestination extends Destination {
     constructor(firebaseData) {
