@@ -1,6 +1,10 @@
 // Import Firebase functions
 import { db } from './firebase-init.js';
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import DestinationFactory from './models/DestinationFactory.js';
+import { HistoricalDestination } from './models/HistoricalDestination.js';
+import { NatureDestination } from './models/NatureDestination.js';
+import { CulturalDestination } from './models/CulturalDestination.js';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
