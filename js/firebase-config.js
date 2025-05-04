@@ -49,11 +49,22 @@ function filterDestinations(searchTerm) {
     if (!searchTerm) return [];
     
     searchTerm = searchTerm.toLowerCase();
+    console.log('Searching for:', searchTerm);
+    console.log('Available destinations:', allDestinations);
+    
     return allDestinations.filter(destination => {
-        return destination.name?.toLowerCase().includes(searchTerm) || 
-               destination.description?.toLowerCase().includes(searchTerm) ||
-               destination.location?.toLowerCase().includes(searchTerm) ||
-               destination.category?.toLowerCase().includes(searchTerm);
+        const nameMatch = destination.name?.toLowerCase().includes(searchTerm);
+        const descMatch = destination.description?.toLowerCase().includes(searchTerm);
+        const locMatch = destination.location?.toLowerCase().includes(searchTerm);
+        const catMatch = destination.category?.toLowerCase().includes(searchTerm);
+        
+        console.log('Checking destination:', destination.name);
+        console.log('- Name match:', nameMatch);
+        console.log('- Description match:', descMatch);
+        console.log('- Location match:', locMatch);
+        console.log('- Category match:', catMatch);
+        
+        return nameMatch || descMatch || locMatch || catMatch;
     });
 }
 
