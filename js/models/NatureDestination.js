@@ -1,10 +1,10 @@
-import Destination from './Destination';
+import Destination from './Destination.js';
 
 class NatureDestination extends Destination {
     constructor(firebaseData) {
         super(firebaseData);
-        this.activities = firebaseData.activities || [];
         this.bestSeason = firebaseData.bestSeason || '';
+        this.activities = firebaseData.activities || [];
         this.flora = firebaseData.flora || [];
         this.fauna = firebaseData.fauna || [];
     }
@@ -12,8 +12,8 @@ class NatureDestination extends Destination {
     toFirebaseObject() {
         return {
             ...super.toFirebaseObject(),
-            activities: this.activities,
             bestSeason: this.bestSeason,
+            activities: this.activities,
             flora: this.flora,
             fauna: this.fauna
         };
@@ -23,9 +23,12 @@ class NatureDestination extends Destination {
         this.activities.push(activity);
     }
 
-    addSpecies(type, name) {
-        if (type === 'flora') this.flora.push(name);
-        if (type === 'fauna') this.fauna.push(name);
+    addFlora(plant) {
+        this.flora.push(plant);
+    }
+
+    addFauna(animal) {
+        this.fauna.push(animal);
     }
 }
 
