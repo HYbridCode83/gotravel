@@ -1,9 +1,12 @@
 // Import only what we need
 import { db, fetchDestinations, filterDestinations } from './firebase-init.js';
 import DestinationFactory from './models/DestinationFactory.js';
+import { initializeSearchBar } from './shared-search.js';
 
-// Main search functionality
 document.addEventListener('DOMContentLoaded', async () => {
+    // Initialize the search bar functionality
+    initializeSearchBar();
+    
     console.log("Search results page loaded"); // Debug log
     
     const urlParams = new URLSearchParams(window.location.search);
