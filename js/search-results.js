@@ -1,7 +1,6 @@
 // Import only what we need
 import { db, fetchDestinations, filterDestinations } from './firebase-init.js';
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-import DestinationFactory from './models/DestinationFactory.js';
 
 // Main search functionality
 document.addEventListener('DOMContentLoaded', async () => {
