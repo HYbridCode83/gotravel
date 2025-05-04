@@ -65,11 +65,34 @@ function displayResults(searchQuery, results) {
     results.forEach(destination => {
         // Use default image if none provided
         const imageUrl = destination.imageUrl || 'images/sarawak-rainforest.jpg';
+         // Get special features based on destination type
+        let specialFeatures = '';
+        if (destination instanceof HistoricalDestination) {
+            specialFeatures = `
+                <div class="historical-features">
+                    <p><i class="fas fa-landmark"></i> Built in ${destination.yearBuilt}</p>
+                    <p>${destination.historicalSignificance}</p>
+                </div>
+            `;
+        } else if (destination instanceof NatureDestination) {
+            specialFeatures = `
+                <div class="nature-features">
+                    <p><i class="fas fa-tree"></i> Best Season: ${destination.bestSeason}</p>
+                    <p><i class="fas fa-hiking"></i> Activities: ${destination.activities.join(', ')}</p>
+                    ${destination.flora.length ? `<p><i class="fas fa-leaf"></i> Flora: ${destination.flora.join(', ')}</p>` : ''}
+                    ${destination.fauna.length ? `<p><i class="fas fa-paw"></i> Fauna: ${destination.fauna.join(', ')}</p>` : ''}
+                </div>
+            `;
+        } else if (destination instanceof CulturalDestination) {
+            specialFeatures = `
+                <div class="cultural-features">
+                    <p><i class="fas fa-theater-masks"></i> Culture: ${destination.culture}</p>
+                    ${destination.events.length ? `<p><i class="fas fa-calendar-alt"></i> Events: ${destination.events.join(', ')}</p>` : ''}
+                    ${destination.traditions.length ? `<p><i class="fas fa-scroll"></i> Traditions: ${destination.traditions.join(', ')}</p>` : ''}
+                </div>
+            `;
+        }
         
-        // Truncate description if too long
-        const description = destination.description || 'No description available.';
-        
-        // Create card
         const resultCard = document.createElement('div');
         resultCard.className = 'result-card';
         resultCard.innerHTML = `
@@ -80,7 +103,8 @@ function displayResults(searchQuery, results) {
                     <i class="fas fa-map-marker-alt"></i>
                     <span>${destination.location || 'Sarawak, Malaysia'}</span>
                 </div>
-                <p class="result-description">${description}</p>
+                <p class="result-description">${destination.description}</p>
+                ${specialFeatures}
                 <a href="#" class="view-more" data-id="${destination.id}">View Details</a>
             </div>
         `;
@@ -89,7 +113,6 @@ function displayResults(searchQuery, results) {
         const viewMoreBtn = resultCard.querySelector('.view-more');
         viewMoreBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            // Display destination details (we'll implement this next)
             showDestinationDetails(destination);
         });
         
@@ -207,21 +230,22 @@ function showDestinationDetails(destination) {
 // Search in Firebase
 async function searchDestinations(query) {
     try {
-        // Get all destinations (for simplicity)
         const destinationsRef = collection(db, "destinations");
         const querySnapshot = await getDocs(destinationsRef);
         
         const results = [];
         querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const searchableText = `${data.name} ${data.description} ${data.location}`.toLowerCase();
+            const firebaseData = {
+                id: doc.id,
+                ...doc.data()
+            };
             
-            // If searchableText contains the query, add to results
+            // Create appropriate destination type using factory
+            const destination = DestinationFactory.createDestination(firebaseData);
+            const searchableText = `${destination.name} ${destination.description} ${destination.location}`.toLowerCase();
+            
             if (searchableText.includes(query.toLowerCase())) {
-                results.push({
-                    id: doc.id,
-                    ...data
-                });
+                results.push(destination);
             }
         });
         
@@ -274,10 +298,12 @@ async function fetchAllDestinations() {
         
         allDestinations = [];
         querySnapshot.forEach((doc) => {
-            allDestinations.push({
+            const firebaseData = {
                 id: doc.id,
                 ...doc.data()
-            });
+            };
+            const destination = DestinationFactory.createDestination(firebaseData);
+            allDestinations.push(destination);
         });
     } catch (error) {
         console.error("Error fetching destinations:", error);
