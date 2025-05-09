@@ -1,10 +1,17 @@
 import { db, fetchDestinations, filterDestinations } from './firebase-config.js';
 
+// Add these variables at the top of your file, after the imports
+let currentCategory = 'all';
+let allResults = [];
+
 document.addEventListener('DOMContentLoaded', async () => {
     console.log("Search results page loaded");
     
     // Initialize search functionality
     initializeSearch();
+    
+    // Initialize category filters
+    initializeCategoryFilters();
     
     // Get and display initial search results
     const urlParams = new URLSearchParams(window.location.search);
@@ -67,6 +74,24 @@ function initializeSearch() {
     });
 }
 
+// Add this function after your existing initialization functions
+function initializeCategoryFilters() {
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Update active state
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Update current category and refresh display
+            currentCategory = button.dataset.category;
+            const searchQuery = document.getElementById('search-bar').value;
+            displayResults(searchQuery, allResults);
+        });
+    });
+}
+
 function performSearch(searchTerm) {
     if (!searchTerm.trim()) return;
     
@@ -101,10 +126,10 @@ function displaySuggestions(destinations, suggestionsList) {
     suggestionsList.style.display = 'block';
 }
 
+// Modify your existing displayResults function to handle categories
 function displayResults(searchQuery, results) {
     console.log('Displaying results for:', searchQuery);
-    console.log('Number of results:', results.length);
-    console.log('Results:', results); 
+    allResults = results; // Store all results for filtering
     
     const searchResultsContainer = document.getElementById('search-results');
     searchResultsContainer.innerHTML = '';
@@ -116,16 +141,44 @@ function displayResults(searchQuery, results) {
     searchResultsContainer.appendChild(searchTitle);
     
     if (results.length === 0) {
-        searchResultsContainer.innerHTML += `
-            <div class="no-results">
-                <i class="fas fa-search"></i>
-                <h3>No destinations found</h3>
-                <p>We couldn't find any destinations matching "${searchQuery}"</p>
-                <p>Try a different search term or browse our <a href="index.html#destinations">popular destinations</a>.</p>
-            </div>
-        `;
+        displayNoResults(searchQuery, searchResultsContainer);
         return;
     }
+
+    // Filter results based on current category
+    const filteredResults = currentCategory === 'all' 
+        ? results 
+        : results.filter(d => d.category === currentCategory);
+
+    if (filteredResults.length === 0) {
+        displayNoResults(`${currentCategory} destinations for "${searchQuery}"`, searchResultsContainer);
+        return;
+    }
+
+    // Create categories container
+    const categoriesContainer = document.createElement('div');
+    categoriesContainer.className = 'categories-container';
+
+    if (currentCategory === 'all') {
+        // Group results by category when showing all
+        const groupedResults = {
+            cultural: filteredResults.filter(d => d.category === 'cultural'),
+            historical: filteredResults.filter(d => d.category === 'historical'),
+            nature: filteredResults.filter(d => d.category === 'nature')
+        };
+        displayGroupedResults(groupedResults, categoriesContainer);
+    } else {
+        // Show filtered results in a single grid
+        const grid = document.createElement('div');
+        grid.className = 'results-grid';
+        filteredResults.forEach(destination => {
+            grid.appendChild(createDestinationCard(destination));
+        });
+        categoriesContainer.appendChild(grid);
+    }
+
+    searchResultsContainer.appendChild(categoriesContainer);
+}
 
     // Group results by category
     const groupedResults = {
@@ -187,6 +240,18 @@ function displayResults(searchQuery, results) {
     });
 
     searchResultsContainer.appendChild(categoriesContainer);
+}
+
+// Add this helper function for displaying no results
+function displayNoResults(searchTerm, container) {
+    container.innerHTML += `
+        <div class="no-results">
+            <i class="fas fa-search"></i>
+            <h3>No destinations found</h3>
+            <p>We couldn't find any destinations matching "${searchTerm}"</p>
+            <p>Try a different search term or browse our <a href="index.html#destinations">popular destinations</a>.</p>
+        </div>
+    `;
 }
 
 // Helper functions
