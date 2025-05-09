@@ -649,15 +649,17 @@ footer {
     }
 }
 
-/* Category filter container */
+/* Category filter container - add !important to ensure visibility */
 .category-filter {
     max-width: 800px;
     margin: 2rem auto;
     padding: 0 1rem;
-    display: flex;
+    display: flex !important; /* Force display */
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
+    position: relative;
+    z-index: 10; /* Ensure it's above other elements */
 }
 
 /* Category button styles */
@@ -671,15 +673,17 @@ footer {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    min-width: 100px; /* Ensure minimum width */
+    visibility: visible !important; /* Force visibility */
 }
 
-.category-btn i {
-    font-size: 1rem;
-}
-
-.category-btn:hover {
+/* Make sure buttons are visible in all states */
+.category-btn:hover,
+.category-btn:active,
+.category-btn.active {
     background: #f5f5f5;
     border-color: #ccc;
+    opacity: 1;
 }
 
 .category-btn.active {
