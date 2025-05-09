@@ -654,7 +654,7 @@ footer {
 .category-filter {
     max-width: 800px;
     width: 100%;
-    margin: 70px auto 20px; 
+    margin: 80px auto 20px; 
     padding: 15px;
     display: flex !important;
     justify-content: center;
@@ -701,7 +701,7 @@ footer {
 
 /* Ensure proper spacing for results */
 .results-container {
-    margin-top: 30px;
+    margin-top: 20px;
     padding: 0 20px;
     max-width: 1200px;
     margin-left: auto;
