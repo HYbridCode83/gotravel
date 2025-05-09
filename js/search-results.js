@@ -7,6 +7,15 @@ let allResults = [];
 document.addEventListener('DOMContentLoaded', async () => {
     console.log("Search results page loaded");
     
+     // Make sure category filter is visible
+    const categoryFilter = document.getElementById('categoryFilter');
+    if (categoryFilter) {
+        categoryFilter.style.display = 'flex';
+        console.log('Category filter initialized');
+    } else {
+        console.error('Category filter not found in DOM');
+    }
+    
     // Initialize search functionality
     initializeSearch();
     
