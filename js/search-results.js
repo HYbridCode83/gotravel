@@ -46,7 +46,7 @@ function initializeSearch() {
     searchBar.addEventListener('input', async () => {
         const searchTerm = searchBar.value.trim();
         if (searchTerm.length >= 2) {
-            await fetchDestinations(); // Ensure destinations are loaded
+            await fetchDestinations();
             const filteredDestinations = filterDestinations(searchTerm);
             displaySuggestions(filteredDestinations, suggestionsList);
         } else {
@@ -74,7 +74,6 @@ function initializeSearch() {
     });
 }
 
-// Add this function after your existing initialization functions
 function initializeCategoryFilters() {
     const categoryButtons = document.querySelectorAll('.category-btn');
     
@@ -126,32 +125,6 @@ function displaySuggestions(destinations, suggestionsList) {
     suggestionsList.style.display = 'block';
 }
 
-// Add this new function that was referenced but missing
-function displayGroupedResults(groupedResults, categoriesContainer) {
-    Object.entries(groupedResults).forEach(([category, destinations]) => {
-        if (destinations.length > 0) {
-            const categorySection = document.createElement('div');
-            categorySection.className = 'category-section';
-            categorySection.innerHTML = `
-                <h3 class="category-title">
-                    <i class="fas ${getCategoryIcon(category)}"></i>
-                    ${capitalizeFirstLetter(category)} Destinations
-                </h3>
-                <div class="results-grid"></div>
-            `;
-
-            const grid = categorySection.querySelector('.results-grid');
-            
-            destinations.forEach(destination => {
-                grid.appendChild(createDestinationCard(destination));
-            });
-
-            categoriesContainer.appendChild(categorySection);
-        }
-    });
-}
-
-// Modify your existing displayResults function to handle categories
 function displayResults(searchQuery, results) {
     console.log('Displaying results for:', searchQuery);
     allResults = results; // Store all results for filtering
@@ -191,7 +164,27 @@ function displayResults(searchQuery, results) {
             historical: filteredResults.filter(d => d.category === 'historical'),
             nature: filteredResults.filter(d => d.category === 'nature')
         };
-        displayGroupedResults(groupedResults, categoriesContainer);
+        Object.entries(groupedResults).forEach(([category, destinations]) => {
+            if (destinations.length > 0) {
+                const categorySection = document.createElement('div');
+                categorySection.className = 'category-section';
+                categorySection.innerHTML = `
+                    <h3 class="category-title">
+                        <i class="fas ${getCategoryIcon(category)}"></i>
+                        ${capitalizeFirstLetter(category)} Destinations
+                    </h3>
+                    <div class="results-grid"></div>
+                `;
+
+                const grid = categorySection.querySelector('.results-grid');
+                
+                destinations.forEach(destination => {
+                    grid.appendChild(createDestinationCard(destination));
+                });
+
+                categoriesContainer.appendChild(categorySection);
+            }
+        });
     } else {
         // Show filtered results in a single grid
         const grid = document.createElement('div');
@@ -205,7 +198,35 @@ function displayResults(searchQuery, results) {
     searchResultsContainer.appendChild(categoriesContainer);
 }
 
-// Add this helper function for displaying no results
+function createDestinationCard(destination) {
+    const card = document.createElement('div');
+    card.className = 'result-card';
+    card.innerHTML = `
+        <img src="${destination.imageUrl || 'images/default.jpg'}" 
+             alt="${destination.name}" 
+             class="result-image"
+             onerror="this.src='images/default.jpg'">
+        <div class="result-content">
+            <h3 class="result-title">${destination.name}</h3>
+            <div class="result-location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>${destination.location || 'Location not specified'}</span>
+            </div>
+            <p class="result-description">${destination.description || 'No description available'}</p>
+            <a href="#" class="view-more">View More</a>
+        </div>
+    `;
+
+    // Add click event for view more button
+    const viewMoreBtn = card.querySelector('.view-more');
+    viewMoreBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        showDestinationDetails(destination);
+    });
+
+    return card;
+}
+
 function displayNoResults(searchTerm, container) {
     container.innerHTML += `
         <div class="no-results">
@@ -217,7 +238,6 @@ function displayNoResults(searchTerm, container) {
     `;
 }
 
-// Helper functions
 function getCategoryIcon(category) {
     const icons = {
         cultural: 'fa-theater-masks',
