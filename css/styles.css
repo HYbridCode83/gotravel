@@ -23,7 +23,7 @@ header {
     position: fixed;
     width: 100%;
     top: 0;
-    z-index: 1000;
+    z-index: 1001;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
@@ -649,10 +649,9 @@ footer {
     }
 }
 
-/* Category filter container */
 .category-filter {
     max-width: 800px;
-    margin: 80px auto 20px;
+    margin: 0 auto;
     padding: 15px;
     display: flex !important;
     justify-content: center;
@@ -661,8 +660,12 @@ footer {
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 999;
+    position: fixed;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: 90%;
 }
 
 /* Category buttons */
@@ -699,21 +702,35 @@ footer {
 
 /* Ensure proper spacing for results */
 .results-container {
-    margin-top: 20px;
+    margin-top: 140px;
     padding: 0 20px;
 }
 
 /* Make sure search title doesn't overlap */
 .search-title {
-    margin-top: 20px;
     margin-bottom: 30px;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .category-filter {
-        margin: 10px;
+        top: 80px; /* Adjust for smaller screens */
         padding: 10px;
+    }
+    
+    .results-container {
+        margin-top: 160px; /* Adjust for smaller screens */
+    }
+}
+
+/* For very small screens */
+@media (max-width: 600px) {
+    .category-filter {
+        top: 120px; /* Adjust for mobile layout */
+    }
+    
+    .results-container {
+        margin-top: 200px; /* Adjust for mobile layout */
     }
     
     .category-btn {
