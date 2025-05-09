@@ -652,9 +652,13 @@ footer {
 
 /* Category filter container*/
 .category-filter {
+    position: fixed;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
     max-width: 800px;
-    width: 100%;
-    margin: 80px auto 20px; 
+    width: calc(100% - 40px);
+    margin: 0 auto;
     padding: 15px;
     display: flex !important;
     justify-content: center;
@@ -663,8 +667,7 @@ footer {
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 999;
+    z-index: 1000;
 }
 
 /* Category buttons */
@@ -701,7 +704,7 @@ footer {
 
 /* Ensure proper spacing for results */
 .results-container {
-    margin-top: 20px;
+    margin-top: 150px;
     padding: 0 20px;
     max-width: 1200px;
     margin-left: auto;
@@ -710,7 +713,6 @@ footer {
 
 /* Make sure search title doesn't overlap */
 .search-title {
-    margin-top: 20px;
     margin-bottom: 30px;
     text-align: center;
 }
@@ -718,22 +720,26 @@ footer {
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .category-filter {
-        margin: 80px 10px 20px; /* Adjust margins for smaller screens */
         padding: 10px;
-    }
-    
-    .category-btn {
-        padding: 6px 12px;
-        font-size: 13px;
+        width: calc(100% - 20px);
     }
 }
 
 @media (max-width: 600px) {
     header {
-        height: auto; /* Allow header to expand on mobile */
+        height: auto;
     }
     
     .category-filter {
-        margin: 120px 10px 20px; /* Increase top margin for mobile header */
+        top: 120px; /* Adjust for taller mobile header */
+    }
+    
+    .results-container {
+        margin-top: 200px; /* Increase spacing for mobile layout */
+    }
+    
+    .category-btn {
+        padding: 6px 12px;
+        font-size: 13px;
     }
 }
