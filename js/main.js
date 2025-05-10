@@ -53,6 +53,24 @@ async function fetchDestinations() {
     }
 }
 
+function initializeSession() {
+    // Track session start
+    const user = auth.currentUser;
+    if (user) {
+        metrics.trackEngagement(user.uid, 'session_start', {
+            referrer: document.referrer,
+            entryPage: window.location.pathname
+        });
+    }
+
+    // Track session end
+    window.addEventListener('beforeunload', () => {
+        if (user) {
+            metrics.trackEngagement(user.uid, 'session_end');
+        }
+    });
+}
+
 // Add digital adoption tracking
 function initAdoption() {
     const auth = firebase.auth();
@@ -341,6 +359,7 @@ auth.onAuthStateChanged((user) => {
     if (user) {
         // User is signed in
         console.log('User is signed in:', user.uid);
+        initializeSession();
         achievements.checkAchievements(user.uid);
         trackUserEngagement();
         // You can update UI elements here to show logged-in state
