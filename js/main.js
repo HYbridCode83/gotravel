@@ -359,17 +359,32 @@ auth.onAuthStateChanged((user) => {
     if (user) {
         // User is signed in
         console.log('User is signed in:', user.uid);
+        adoption.setupUser(user).then(() => {
         initializeSession();
         achievements.checkAchievements(user.uid);
         trackUserEngagement();
+    }).catch(error => {
+        console.error('Error setting up user:', error);
+    });
         // You can update UI elements here to show logged-in state
     } else {
         // User is signed out
         console.log('User is signed out');
         // You can update UI elements here to show logged-out state
+        handleSignedOutState();
     }
-    
-    
+});
+
+// Add error handling for auth operations
+function handleAuthError(error) {
+    console.error('Auth error:', error);
+    if (error.code === 'auth/unauthorized-domain') {
+        console.error('Please add hybridcode83.github.io to Firebase authorized domains');
+    }
+    // Show appropriate error message to user
+    NotificationSystem.showError('Authentication error. Please try again later.');
+}
+
     // Sign up with email and password
 async function signUp(email, password) {
     try {
@@ -387,8 +402,20 @@ async function signIn(email, password) {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         return userCredential.user;
     } catch (error) {
-        console.error('Error signing in:', error);
+        handleAuthError(error);
         throw error;
+    }
+}
+
+// Add a function to handle signed out state
+function handleSignedOutState() {
+    // Clear any user-specific data
+    sessionStorage.removeItem('session_id');
+    // Update UI for signed out state
+    document.body.classList.remove('user-signed-in');
+    // Redirect to sign in page if needed
+    if (!window.location.pathname.includes('/signin.html')) {
+        window.location.href = '/signin.html';
     }
 }
 
@@ -402,6 +429,38 @@ async function signOut() {
     }
 }
 });
+
+async function verifyDomainSetup() {
+    console.log('Verifying domain setup...');
+    console.log('Current timestamp:', '2025-05-10 08:28:10');
+    console.log('Current user:', 'HYbridCode83');
+    
+    try {
+        // Check if we're on the authorized domain
+        const currentDomain = window.location.hostname;
+        console.log('Current domain:', currentDomain);
+        
+        if (currentDomain !== 'hybridcode83.github.io') {
+            console.error('❌ Domain mismatch. Expected: hybridcode83.github.io, Got:', currentDomain);
+            return false;
+        }
+
+        // Verify Firebase config
+        const authDomain = firebase.app().options.authDomain;
+        console.log('Auth domain:', authDomain);
+        
+        if (authDomain !== 'hybridcode83.github.io') {
+            console.error('❌ Firebase auth domain mismatch. Expected: hybridcode83.github.io, Got:', authDomain);
+            return false;
+        }
+
+        console.log('✅ Domain configuration verified');
+        return true;
+    } catch (error) {
+        console.error('❌ Verification failed:', error);
+        return false;
+    }
+}
 
 // Add this to the bottom of your main.js
 async function verifyAllFeatures() {
