@@ -53,13 +53,50 @@ async function fetchDestinations() {
     }
 }
 
+// Add digital adoption tracking
+function initAdoption() {
+    const auth = firebase.auth();
+    
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            checkUserSetup(user);
+        }
+    });
+}
+
+// Check if user needs setup
+async function checkUserSetup(user) {
+    const userDoc = await firebase.firestore()
+        .collection('users')
+        .doc(user.uid)
+        .get();
+
+    if (!userDoc.exists || !userDoc.data().preferences) {
+        showQuickSetup();
+    }
+}
+
+// Track interactions with destinations
+function trackDestinationInteraction() {
+    document.querySelectorAll('.place-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const user = auth.currentUser;
+            if (user) {
+                adoption.updateInteraction(user.uid, 'viewed_destination');
+            }
+        });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const searchBar = document.getElementById('search-bar');
     const suggestions = document.getElementById('suggestions');
     const searchButton = document.getElementById('search-button');
     
-    // Initialize by fetching destinations from Firebase
+    // Initialize features
     fetchDestinations();
+    initAdoption();
+    trackDestinationInteraction();
     
     if (searchBar && suggestions) {
         searchBar.addEventListener('input', () => {
