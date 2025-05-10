@@ -1,49 +1,23 @@
 class NotificationSystem {
-    constructor() {
-        this.container = this.createNotificationContainer();
-    }
-
-    createNotificationContainer() {
-        const container = document.createElement('div');
-        container.id = 'notification-container';
-        container.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        `;
-        document.body.appendChild(container);
-        return container;
-    }
-
-    showAchievement(achievement) {
+    static showAchievement(achievement) {
         const notification = document.createElement('div');
         notification.className = 'achievement-notification';
         notification.innerHTML = `
             <div class="achievement-icon">🏆</div>
-            <div class="achievement-content">
-                <h4>Achievement Unlocked!</h4>
-                <p>${this.getAchievementText(achievement)}</p>
-            </div>
+            <p>${this.getAchievementText(achievement)}</p>
         `;
         
-        this.container.appendChild(notification);
+        document.body.appendChild(notification);
         
-        // Remove after 5 seconds
-        setTimeout(() => {
-            notification.classList.add('fade-out');
-            setTimeout(() => notification.remove(), 500);
-        }, 5000);
+        // Remove after 3 seconds
+        setTimeout(() => notification.remove(), 3000);
     }
 
-    getAchievementText(achievement) {
+    static getAchievementText(achievement) {
         const achievements = {
-            'explorer': 'Explorer: Visited 5 different destinations!',
-            'preference_master': 'Preference Master: Set up your travel preferences!'
+            'explorer': 'Achievement: Explored 5 destinations!',
+            'preference_master': 'Achievement: Travel preferences set!'
         };
         return achievements[achievement] || 'New achievement unlocked!';
     }
 }
-
-// Initialize notification system
-const notifications = new NotificationSystem();
