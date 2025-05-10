@@ -1,4 +1,3 @@
-// Create a new file for achievements
 class Achievements {
     constructor() {
         this.db = firebase.firestore();
@@ -17,13 +16,21 @@ class Achievements {
             achievements.push('preference_master');
         }
 
-        // Update user achievements
+        // Update user achievements and show notifications
         if (achievements.length > 0) {
             await this.db.collection('users').doc(userId).update({
                 achievements: firebase.firestore.FieldValue.arrayUnion(...achievements)
+            });
+            
+            // Show notification for each new achievement
+            achievements.forEach(achievement => {
+                NotificationSystem.showAchievement(achievement);
             });
         }
 
         return achievements;
     }
 }
+
+// Initialize achievements system
+const achievements = new Achievements();
