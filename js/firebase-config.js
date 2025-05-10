@@ -6,7 +6,7 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDrqJJHSXC4dDrIAO8KY6zg_4UaaOGm5oc",
-    authDomain: "hybridcode83.github.io",
+    authDomain: "gotravel-68bf3.firebaseapp.com",
     projectId: "gotravel-68bf3",
     storageBucket: "gotravel-68bf3.firebasestorage.app",
     messagingSenderId: "290702376216",
