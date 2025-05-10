@@ -159,6 +159,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Add this to your main.js to test preferences
+async function testPreferences() {
+    const user = auth.currentUser;
+    if (user) {
+        const prefs = await adoption.getRecommendations(user.uid);
+        console.log('User preferences working:', prefs.length > 0);
+    }
+}
 
 // Save a destination for the logged-in user
 async function saveDestination(destination) {
