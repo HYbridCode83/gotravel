@@ -29,6 +29,40 @@ class MinimalDigitalAdoption {
     }
 }
 
+// Add this new method to track popular destinations
+    async trackPopularDestinations(destinationName) {
+        try {
+            const popularRef = this.db.collection('popular_destinations').doc(destinationName);
+            await popularRef.set({
+                views: firebase.firestore.FieldValue.increment(1)
+            }, { merge: true });
+        } catch (error) {
+            console.error('Error tracking popular destination:', error);
+        }
+    }
+
+    // Add this method to get personalized recommendations
+    async getRecommendations(userId) {
+        try {
+            const userDoc = await this.db.collection('users').doc(userId).get();
+            const userData = userDoc.data();
+            const preferences = userData.preferences || [];
+
+            // Get destinations matching user preferences
+            const destinationsRef = this.db.collection('destinations');
+            const snapshot = await destinationsRef
+                .where('categories', 'array-contains-any', preferences)
+                .limit(4)
+                .get();
+
+            return snapshot.docs.map(doc => doc.data());
+        } catch (error) {
+            console.error('Error getting recommendations:', error);
+            return [];
+        }
+    }
+}
+
 // Initialize the adoption system
 const adoption = new MinimalDigitalAdoption();
 const userInterests = new Set();
