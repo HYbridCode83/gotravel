@@ -231,6 +231,29 @@ async function verifyTracking() {
     }
 }
 
+// Add this new function to display recommendations
+function displayRecommendations(recommendations) {
+    const recommendationsSection = document.getElementById('recommendationsSection');
+    const recommendationsGrid = recommendationsSection.querySelector('.recommendations-grid');
+    
+    if (recommendations && recommendations.length > 0) {
+        recommendationsGrid.innerHTML = '';
+        recommendations.forEach(destination => {
+            const card = document.createElement('div');
+            card.className = 'recommendation-card';
+            card.innerHTML = `
+                <img src="${destination.imageUrl || 'images/placeholder.jpg'}" alt="${destination.name}">
+                <div class="recommendation-details">
+                    <h4>${destination.name}</h4>
+                    <p>${destination.description || 'Explore this destination'}</p>
+                </div>
+            `;
+            recommendationsGrid.appendChild(card);
+        });
+        recommendationsSection.style.display = 'block';
+    }
+}
+
 // Save a destination for the logged-in user
 async function saveDestination(destination) {
     const user = auth.currentUser;
