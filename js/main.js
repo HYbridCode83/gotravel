@@ -168,6 +168,15 @@ async function testPreferences() {
     }
 }
 
+// Add this to test tracking
+async function verifyTracking() {
+    const user = auth.currentUser;
+    if (user) {
+        await adoption.updateInteraction(user.uid, 'test_interaction');
+        console.log('Tracking test completed');
+    }
+}
+
 // Save a destination for the logged-in user
 async function saveDestination(destination) {
     const user = auth.currentUser;
