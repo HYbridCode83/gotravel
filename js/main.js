@@ -254,6 +254,36 @@ function displayRecommendations(recommendations) {
     }
 }
 
+// Add these test functions after your existing code
+async function testFeatures() {
+    const user = auth.currentUser;
+    if (!user) {
+        console.log('Please sign in first');
+        return;
+    }
+
+    try {
+        // Test metrics
+        await metrics.trackEngagement(user.uid, 'test_action');
+        console.log('✓ Metrics tracking working');
+
+        // Test achievements
+        await achievements.checkAchievements(user.uid);
+        console.log('✓ Achievements system working');
+
+        // Test recommendations
+        const recommendations = await adoption.getRecommendations(user.uid);
+        console.log('✓ Recommendations working:', recommendations.length > 0);
+
+        // Test popular destinations
+        await adoption.trackPopularDestinations('Test Destination');
+        console.log('✓ Popular destinations tracking working');
+
+    } catch (error) {
+        console.error('Test failed:', error);
+    }
+}
+
 // Save a destination for the logged-in user
 async function saveDestination(destination) {
     const user = auth.currentUser;
@@ -286,6 +316,7 @@ auth.onAuthStateChanged((user) => {
     if (user) {
         // User is signed in
         console.log('User is signed in:', user.uid);
+        achievements.checkAchievements(user.uid);
         // You can update UI elements here to show logged-in state
     } else {
         // User is signed out
