@@ -9,7 +9,7 @@ class MinimalDigitalAdoption {
                 email: user.email,
                 preferences: [],
                 interactionCount: 0
-            });
+            }, { merge: true }); // Using merge to not overwrite existing data
             return true;
         } catch (error) {
             console.error('Setup error:', error);
@@ -28,3 +28,7 @@ class MinimalDigitalAdoption {
         }
     }
 }
+
+// Initialize the adoption system
+const adoption = new MinimalDigitalAdoption();
+const userInterests = new Set();
