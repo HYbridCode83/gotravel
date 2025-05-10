@@ -284,6 +284,40 @@ async function testFeatures() {
     }
 }
 
+// Add these functions to main.js
+async function trackUserEngagement() {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    // Track search interactions
+    const searchBar = document.getElementById('search-bar');
+    if (searchBar) {
+        searchBar.addEventListener('search', () => {
+            adoption.trackAnalytics(user.uid, 'search_performed', {
+                query: searchBar.value
+            });
+        });
+    }
+
+    // Track recommendation clicks
+    document.querySelectorAll('.recommendation-card').forEach(card => {
+        card.addEventListener('click', () => {
+            adoption.trackAnalytics(user.uid, 'recommendation_clicked', {
+                destinationName: card.querySelector('h4').textContent
+            });
+        });
+    });
+}
+
+// Add this to your auth state observer
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        console.log('User is signed in:', user.uid);
+        achievements.checkAchievements(user.uid);
+        trackUserEngagement(); // Add this line
+    }
+});
+
 // Save a destination for the logged-in user
 async function saveDestination(destination) {
     const user = auth.currentUser;
