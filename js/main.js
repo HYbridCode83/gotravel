@@ -309,15 +309,6 @@ async function trackUserEngagement() {
     });
 }
 
-// Add this to your auth state observer
-auth.onAuthStateChanged((user) => {
-    if (user) {
-        console.log('User is signed in:', user.uid);
-        achievements.checkAchievements(user.uid);
-        trackUserEngagement(); // Add this line
-    }
-});
-
 // Save a destination for the logged-in user
 async function saveDestination(destination) {
     const user = auth.currentUser;
@@ -351,6 +342,7 @@ auth.onAuthStateChanged((user) => {
         // User is signed in
         console.log('User is signed in:', user.uid);
         achievements.checkAchievements(user.uid);
+        trackUserEngagement();
         // You can update UI elements here to show logged-in state
     } else {
         // User is signed out
