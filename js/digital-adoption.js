@@ -90,6 +90,31 @@ class MinimalDigitalAdoption {
             return null;
         }
     }
+    
+    async checkEngagementLevel(userId) {
+        try {
+            const stats = await this.getUserEngagement(userId);
+            
+            // Check if user needs engagement boost
+            if (stats.interactionCount < 3) {
+                // Show personalized recommendations
+                const recommendations = await this.getRecommendations(userId);
+                if (recommendations.length > 0) {
+                    // Display recommendations using your existing displayRecommendations function
+                    displayRecommendations(recommendations);
+                }
+            }
+            
+            // Check if user hasn't set preferences
+            if (!stats.hasCompletedSetup) {
+                showQuickSetup();
+            }
+            
+            return stats;
+        } catch (error) {
+            console.error('Error checking engagement:', error);
+        }
+    }
 }
 
 // Initialize the adoption system
