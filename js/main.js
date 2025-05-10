@@ -159,6 +159,60 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Add this after your existing functions in main.js
+function showQuickSetup() {
+    const quickSetupDiv = document.getElementById('quickSetup');
+    if (quickSetupDiv) {
+        quickSetupDiv.style.display = 'block';
+    }
+}
+
+function hideQuickSetup() {
+    const quickSetupDiv = document.getElementById('quickSetup');
+    if (quickSetupDiv) {
+        quickSetupDiv.style.display = 'none';
+    }
+}
+
+function toggleInterest(category) {
+    const btn = document.getElementById(category);
+    if (btn) {
+        btn.classList.toggle('active');
+        if (userInterests.has(category)) {
+            userInterests.delete(category);
+        } else {
+            userInterests.add(category);
+        }
+    }
+}
+
+async function saveInterests() {
+    const user = auth.currentUser;
+    if (user) {
+        try {
+            await firebase.firestore()
+                .collection('users')
+                .doc(user.uid)
+                .update({
+                    preferences: Array.from(userInterests)
+                });
+            hideQuickSetup();
+            // Update recommendations after saving preferences
+            updateRecommendations();
+        } catch (error) {
+            console.error('Error saving interests:', error);
+        }
+    }
+}
+
+async function updateRecommendations() {
+    const user = auth.currentUser;
+    if (user) {
+        const recommendations = await adoption.getRecommendations(user.uid);
+        displayRecommendations(recommendations);
+    }
+}
+
 // Add this to your main.js to test preferences
 async function testPreferences() {
     const user = auth.currentUser;
