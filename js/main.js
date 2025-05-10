@@ -383,3 +383,35 @@ async function signOut() {
     }
 }
 });
+
+// Add this to the bottom of your main.js
+async function verifyAllFeatures() {
+    const user = auth.currentUser;
+    if (!user) {
+        console.log('❌ Please sign in first');
+        return;
+    }
+
+    // Run tests quietly in the background
+    try {
+        // Test user setup without affecting UI
+        const setupResult = await adoption.setupUser(user);
+        console.log('✓ User setup:', setupResult);
+
+        // Test other features silently
+        await Promise.all([
+            adoption.updateInteraction(user.uid, 'test_interaction'),
+            adoption.getRecommendations(user.uid),
+            achievements.checkAchievements(user.uid),
+            adoption.trackAnalytics(user.uid, 'test_event')
+        ]);
+
+        console.log('✅ All features verified successfully!');
+    } catch (error) {
+        console.error('❌ Test failed:', error);
+    }
+}
+
+// Only run verification if explicitly called
+// This won't interfere with normal website operation
+window.runVerification = verifyAllFeatures;
