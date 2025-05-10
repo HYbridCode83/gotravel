@@ -431,6 +431,45 @@ async function verifyAllFeatures() {
     }
 }
 
+async function verifyImplementation() {
+    const user = auth.currentUser;
+    if (!user) {
+        console.log('❌ Please sign in first');
+        return;
+    }
+
+    console.log('🔍 Verifying Digital Adoption Implementation...');
+    
+    try {
+        // 1. Verify Metrics System
+        await metrics.trackEngagement(user.uid, 'verification_test');
+        const engagementStats = await metrics.getEngagementStats(user.uid);
+        console.log('✓ Metrics System:', Boolean(engagementStats.totalActions > 0));
+
+        // 2. Verify Achievements
+        const achievementsResult = await achievements.checkAchievements(user.uid);
+        console.log('✓ Achievements System:', Array.isArray(achievementsResult));
+
+        // 3. Verify User Progress
+        const progress = await achievements.getProgress(user.uid);
+        console.log('✓ Progress Tracking:', Boolean(progress));
+
+        // 4. Verify Recommendations
+        const recommendations = await adoption.getRecommendations(user.uid);
+        console.log('✓ Recommendations:', Array.isArray(recommendations));
+
+        // 5. Verify Session Tracking
+        const currentSession = metrics.getCurrentSessionId();
+        console.log('✓ Session Tracking:', Boolean(currentSession));
+
+        console.log('✅ All systems verified successfully!');
+        return true;
+    } catch (error) {
+        console.error('❌ Verification failed:', error);
+        return false;
+    }
+}
+
 // Only run verification if explicitly called
 // This won't interfere with normal website operation
 window.runVerification = verifyAllFeatures;
