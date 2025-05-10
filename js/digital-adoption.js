@@ -27,9 +27,8 @@ class MinimalDigitalAdoption {
             console.error('Track error:', error);
         }
     }
-}
 
-// Add this new method to track popular destinations
+    // Add this new method to track popular destinations
     async trackPopularDestinations(destinationName) {
         try {
             const popularRef = this.db.collection('popular_destinations').doc(destinationName);
@@ -40,8 +39,8 @@ class MinimalDigitalAdoption {
             console.error('Error tracking popular destination:', error);
         }
     }
-
-    // Add this method to get personalized recommendations
+    
+     // Add this method to get personalized recommendations
     async getRecommendations(userId) {
         try {
             const userDoc = await this.db.collection('users').doc(userId).get();
