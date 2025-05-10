@@ -60,6 +60,36 @@ class MinimalDigitalAdoption {
             return [];
         }
     }
+    async trackAnalytics(userId, eventType, data = {}) {
+        try {
+            await this.db.collection('analytics').add({
+                userId,
+                eventType,
+                data,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        } catch (error) {
+            console.error('Analytics tracking error:', error);
+        }
+    }
+
+    // Add this method to get user engagement stats
+    async getUserEngagement(userId) {
+        try {
+            const userDoc = await this.db.collection('users').doc(userId).get();
+            const userData = userDoc.data();
+            
+            return {
+                interactionCount: userData.interactionCount || 0,
+                preferences: userData.preferences || [],
+                lastAction: userData.lastAction,
+                hasCompletedSetup: Boolean(userData.preferences && userData.preferences.length > 0)
+            };
+        } catch (error) {
+            console.error('Error getting user engagement:', error);
+            return null;
+        }
+    }
 }
 
 // Initialize the adoption system
