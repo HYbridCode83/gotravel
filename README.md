@@ -5,7 +5,6 @@ A digital tourism website showcasing the beautiful destinations in Sarawak, Mala
 
 - Responsive design for all device sizes
 - Interactive destination cards
-- Contact form
 - Mobile-friendly navigation
 
 ## Setup
@@ -31,11 +30,3 @@ This website is configured to automatically deploy to GitHub Pages when changes 
      - 185.199.110.153
      - 185.199.111.153
    - Or add a CNAME record pointing to `yourusername.github.io`
-
-## Customization
-
-- Update the destinations in `js/main.js`
-- Add your own images to the `images` folder
-- Modify styles in `css/styles.css`
-
-## License
