@@ -17,7 +17,6 @@ import {
 // Add this right after your imports
 let currentUser = null;
 
-// Update your onAuthStateChanged function
 onAuthStateChanged(auth, async (user) => {
     currentUser = user; // Store the current user
 
@@ -64,7 +63,6 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-// Add sign out functionality
 document.getElementById('signOutBtn')?.addEventListener('click', async () => {
     try {
         // Update last logout time before signing out
@@ -83,7 +81,6 @@ document.getElementById('signOutBtn')?.addEventListener('click', async () => {
     }
 });
 
-// Update your handleAuthError function to include sign out errors
 function handleAuthError(error) {
     const errorMessage = {
         'auth/user-not-found': 'No user found with this email.',

@@ -177,7 +177,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Add this after your existing functions in main.js
 function showQuickSetup() {
     const quickSetupDiv = document.getElementById('quickSetup');
     if (quickSetupDiv) {
@@ -240,69 +239,6 @@ async function testPreferences() {
     }
 }
 
-// Add this to test tracking
-async function verifyTracking() {
-    const user = auth.currentUser;
-    if (user) {
-        await adoption.updateInteraction(user.uid, 'test_interaction');
-        console.log('Tracking test completed');
-    }
-}
-
-// Add this new function to display recommendations
-function displayRecommendations(recommendations) {
-    const recommendationsSection = document.getElementById('recommendationsSection');
-    const recommendationsGrid = recommendationsSection.querySelector('.recommendations-grid');
-    
-    if (recommendations && recommendations.length > 0) {
-        recommendationsGrid.innerHTML = '';
-        recommendations.forEach(destination => {
-            const card = document.createElement('div');
-            card.className = 'recommendation-card';
-            card.innerHTML = `
-                <img src="${destination.imageUrl || 'images/placeholder.jpg'}" alt="${destination.name}">
-                <div class="recommendation-details">
-                    <h4>${destination.name}</h4>
-                    <p>${destination.description || 'Explore this destination'}</p>
-                </div>
-            `;
-            recommendationsGrid.appendChild(card);
-        });
-        recommendationsSection.style.display = 'block';
-    }
-}
-
-// Add these test functions after your existing code
-async function testFeatures() {
-    const user = auth.currentUser;
-    if (!user) {
-        console.log('Please sign in first');
-        return;
-    }
-
-    try {
-        // Test metrics
-        await metrics.trackEngagement(user.uid, 'test_action');
-        console.log('✓ Metrics tracking working');
-
-        // Test achievements
-        await achievements.checkAchievements(user.uid);
-        console.log('✓ Achievements system working');
-
-        // Test recommendations
-        const recommendations = await adoption.getRecommendations(user.uid);
-        console.log('✓ Recommendations working:', recommendations.length > 0);
-
-        // Test popular destinations
-        await adoption.trackPopularDestinations('Test Destination');
-        console.log('✓ Popular destinations tracking working');
-
-    } catch (error) {
-        console.error('Test failed:', error);
-    }
-}
-
-// Add these functions to main.js
 async function trackUserEngagement() {
     const user = auth.currentUser;
     if (!user) return;
@@ -461,74 +397,3 @@ async function verifyDomainSetup() {
         return false;
     }
 }
-
-// Add this to the bottom of your main.js
-async function verifyAllFeatures() {
-    const user = auth.currentUser;
-    if (!user) {
-        console.log('❌ Please sign in first');
-        return;
-    }
-
-    // Run tests quietly in the background
-    try {
-        // Test user setup without affecting UI
-        const setupResult = await adoption.setupUser(user);
-        console.log('✓ User setup:', setupResult);
-
-        // Test other features silently
-        await Promise.all([
-            adoption.updateInteraction(user.uid, 'test_interaction'),
-            adoption.getRecommendations(user.uid),
-            achievements.checkAchievements(user.uid),
-            adoption.trackAnalytics(user.uid, 'test_event')
-        ]);
-
-        console.log('✅ All features verified successfully!');
-    } catch (error) {
-        console.error('❌ Test failed:', error);
-    }
-}
-
-async function verifyImplementation() {
-    const user = auth.currentUser;
-    if (!user) {
-        console.log('❌ Please sign in first');
-        return;
-    }
-
-    console.log('🔍 Verifying Digital Adoption Implementation...');
-    
-    try {
-        // 1. Verify Metrics System
-        await metrics.trackEngagement(user.uid, 'verification_test');
-        const engagementStats = await metrics.getEngagementStats(user.uid);
-        console.log('✓ Metrics System:', Boolean(engagementStats.totalActions > 0));
-
-        // 2. Verify Achievements
-        const achievementsResult = await achievements.checkAchievements(user.uid);
-        console.log('✓ Achievements System:', Array.isArray(achievementsResult));
-
-        // 3. Verify User Progress
-        const progress = await achievements.getProgress(user.uid);
-        console.log('✓ Progress Tracking:', Boolean(progress));
-
-        // 4. Verify Recommendations
-        const recommendations = await adoption.getRecommendations(user.uid);
-        console.log('✓ Recommendations:', Array.isArray(recommendations));
-
-        // 5. Verify Session Tracking
-        const currentSession = metrics.getCurrentSessionId();
-        console.log('✓ Session Tracking:', Boolean(currentSession));
-
-        console.log('✅ All systems verified successfully!');
-        return true;
-    } catch (error) {
-        console.error('❌ Verification failed:', error);
-        return false;
-    }
-}
-
-// Only run verification if explicitly called
-// This won't interfere with normal website operation
-window.runVerification = verifyAllFeatures;
