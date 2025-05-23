@@ -166,7 +166,14 @@ document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
-  await loginWithEmail(email, password);
+  try {
+      validateUserData(email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      await createUserProfile(userCredential.user);
+      window.location.href = 'index.html';
+  } catch (error) {
+      handleAuthError(error);
+  }
 });
 
 document.getElementById('signupForm')?.addEventListener('submit', async (e) => {
@@ -174,8 +181,14 @@ document.getElementById('signupForm')?.addEventListener('submit', async (e) => {
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
   const confirmPassword = document.getElementById('confirmPassword').value;
-  validateUserData(email, password, confirmPassword);
-  await registerWithEmail(email, password);
+  try {
+        validateUserData(email, password, confirmPassword);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await createUserProfile(userCredential.user);
+        window.location.href = 'index.html';
+    } catch (error) {
+        handleAuthError(error);
+    }
 });
 
 document.getElementById('googleSignIn')?.addEventListener('click', loginWithGoogle);
